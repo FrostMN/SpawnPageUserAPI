@@ -4,6 +4,8 @@ from flask import make_response, request
 from config import Config as conf
 from typing import Union
 from abc import ABC, abstractmethod
+from SpawnPageUserAPI.utils.CommandManager import CommandManager, CommandManagerFactory
+from config import Config
 
 whitelist_path = conf.whitelist
 
@@ -102,22 +104,48 @@ class UserListHandler(object):
 
 class UserListManager(ABC):
 
+    command: CommandManager
+
     @abstractmethod
-    def add(self):
+    def add(self, user: str):
         pass
 
     @abstractmethod
-    def remove(self):
+    def remove(self, user: str):
         pass
+
+
+class OpedManager(UserListManager):
+
+    def __init__(self, config: Config):
+        self.command = CommandManagerFactory(config)
+
+    def add(self, user: str):
+        self.command.op(user)
+
+    def remove(self, user: str):
+        self.command.deop(user)
 
 
 class WhitelistManager(UserListManager):
 
-    def __init__(self):
-        pass
+    def __init__(self, config: Config):
+        self.command = CommandManagerFactory(config)
 
-    def add(self):
-        pass
+    def add(self, user: str):
+        self.command.whitelist_add(user)
 
-    def remove(self):
-        pass
+    def remove(self, user: str):
+        self.command.whitelist_remove(user)
+
+
+class BanManager(UserListManager):
+
+    def __init__(self, config: Config):
+        self.command = CommandManagerFactory(config)
+
+    def add(self, user: str):
+        self.command.ban(user)
+
+    def remove(self, user: str):
+        self.command.pardon(user)

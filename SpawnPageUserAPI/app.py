@@ -1,8 +1,8 @@
 from flask import Flask, request
-from SpawnPageUserAPI.utils.UserListHandler import UserListHandler
+from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OpedManager, BanManager
 import json
 
-from config import Config as conf
+from config import DevConfig as conf
 
 app = Flask(__name__)
 
@@ -20,7 +20,7 @@ def pong():
 @app.route('/api/v1/whitelist', methods=["GET", "POST"])
 def whitelist_usernames():
 
-    whitelist = UserListHandler(conf.whitelist)
+    whitelist = WhitelistManager(conf)
 
     # Adds user from post to white list
     if request.method == "POST":
@@ -38,20 +38,13 @@ def whitelist_usernames():
 @app.route('/api/v1/whitelist/<uuid>', methods=["GET", "DELETE"])
 def whitelist_user(uuid: str):
 
-    whitelist = UserListHandler(conf.whitelist)
+    whitelist = WhitelistManager(conf)
 
     # Adds user from post to white list
     if request.method == "DELETE":
+        pass
 
-        print(uuid)
-        user = whitelist.get(uuid)
-        print(user)
-        message = whitelist.remove(user)
-        whitelist.save()
-
-        return json.dumps(message)
-
-    return whitelist.jsonify(uuid)
+    return ""
 
 
 

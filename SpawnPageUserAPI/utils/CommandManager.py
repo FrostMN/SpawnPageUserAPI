@@ -7,27 +7,27 @@ import os
 class CommandManager(ABC):
 
     @abstractmethod
-    def op(self):
+    def op(self, user: str):
         pass
 
     @abstractmethod
-    def deop(self):
+    def deop(self, user: str):
         pass
 
     @abstractmethod
-    def whitelist_add(self):
+    def whitelist_add(self, user: str):
         pass
 
     @abstractmethod
-    def whitelist_remove(self):
+    def whitelist_remove(self, user: str):
         pass
 
     @abstractmethod
-    def ban(self):
+    def ban(self, user: str):
         pass
 
     @abstractmethod
-    def pardon(self):
+    def pardon(self, user: str):
         pass
 
 
