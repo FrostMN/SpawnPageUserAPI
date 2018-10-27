@@ -104,7 +104,7 @@ from config import Config
 
 class UserListManager(ABC):
 
-    command: CommandManager
+    # command: CommandManager
 
     @abstractmethod
     def add(self, user: str):
