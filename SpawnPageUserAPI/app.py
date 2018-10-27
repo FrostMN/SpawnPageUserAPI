@@ -22,7 +22,7 @@ def whitelist_usernames():
 
     whitelist = WhitelistManager(conf)
 
-    # Adds user from post to white list -
+    # Adds user from post to white list
     if request.method == "POST":
 
         message = whitelist.add(request.data)
