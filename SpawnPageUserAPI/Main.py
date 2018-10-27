@@ -24,15 +24,9 @@ def whitelist_usernames():
 
     # Adds user from post to white list
     if request.method == "POST":
+        pass
 
-        message = whitelist.add(request.data)
-        whitelist.save()
-
-        print(message)
-
-        return json.dumps(message)
-
-    return whitelist.jsonify()
+    return ""
 
 
 @app.route('/api/v1/whitelist/<uuid>', methods=["GET", "DELETE"])
