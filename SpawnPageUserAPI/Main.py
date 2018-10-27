@@ -4,7 +4,7 @@ import json
 
 from config import DevConfig as conf
 
-app = Flask(__name__)
+from SpawnPageUserAPI.application import app
 
 
 @app.route('/')
@@ -45,8 +45,3 @@ def whitelist_user(uuid: str):
         pass
 
     return ""
-
-
-
-if __name__ == '__main__':
-    app.run()
