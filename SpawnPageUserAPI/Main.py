@@ -1,5 +1,6 @@
 from flask import Flask, request
 from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OpedManager, BanManager
+import ast
 import json
 
 from config import DevConfig as conf
@@ -46,10 +47,11 @@ def whitelist_user(uuid: str):
 def admin_usernames():
 
     oped = OpedManager(conf)
+    req = ast.literal_eval(request.data)
 
     # Adds user from post to white list
     if request.method == "POST":
         print(request.data)
         pass
 
-    return request.data['username']
+    return req['username']
