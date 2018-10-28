@@ -52,4 +52,4 @@ def admin_usernames():
         print(request.data)
         pass
 
-    return request.data
+    return request.data['username']
