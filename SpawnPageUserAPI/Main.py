@@ -24,6 +24,7 @@ def whitelist_usernames():
 
     # Adds user from post to white list
     if request.method == "POST":
+        print(request.data)
         pass
 
     return ""
@@ -39,3 +40,16 @@ def whitelist_user(uuid: str):
         pass
 
     return ""
+
+
+@app.route('/api/v1/admin', methods=["GET", "POST"])
+def admin_usernames():
+
+    oped = OpedManager(conf)
+
+    # Adds user from post to white list
+    if request.method == "POST":
+        print(request.data)
+        pass
+
+    return request.data
