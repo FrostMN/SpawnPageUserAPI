@@ -132,7 +132,11 @@ class OpedManager(UserListManager):
 
     def user(self, user: str):
 
+        print(user)
+
         file_path = os.path.join(self.mc_root, "ops.json")
+
+        print(file_path)
 
         with open(file_path) as json_file:
             user_list = json.load(json_file)
