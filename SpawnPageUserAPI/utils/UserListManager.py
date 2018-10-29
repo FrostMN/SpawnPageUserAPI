@@ -160,11 +160,11 @@ class OpedManager(UserListManager):
         # with open(self.path) as json_file:
         #     user_list = json.load(json_file)
 
-        for u in self.user_list
+        for u in self.user_list:
 
             print(u)
 
-            if user_list:
+            if self.user_list:
                 if "name" in u.keys():
                     if u['name'] == user:
                         return UserListManager.jsonify(data=[u])
