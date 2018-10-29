@@ -142,6 +142,7 @@ class OpedManager(UserListManager):
                     if "name" in u.keys():
                         if u['name'] == user:
                             return u
+        return "not in list"
 
 
 class WhitelistManager(UserListManager):
