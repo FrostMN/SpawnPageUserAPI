@@ -141,6 +141,8 @@ class OpedManager(UserListManager):
         with open(file_path) as json_file:
             user_list = json.load(json_file)
 
+            print(user_list)
+
             for u in user_list:
 
                 print(u)
