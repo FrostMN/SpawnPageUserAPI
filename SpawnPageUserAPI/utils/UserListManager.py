@@ -163,7 +163,7 @@ class OpedManager(UserListManager):
                 if user_list:
                     if "name" in u.keys():
                         if u['name'] == user:
-                            return UserListManager.jsonify(data=u)
+                            return UserListManager.jsonify(data=list(u))
         return "[]"
 
 
