@@ -142,6 +142,9 @@ class OpedManager(UserListManager):
             user_list = json.load(json_file)
 
             for u in user_list:
+
+                print(u)
+
                 if user_list:
                     if "name" in u.keys():
                         if u['name'] == user:
