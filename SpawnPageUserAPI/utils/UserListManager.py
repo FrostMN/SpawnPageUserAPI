@@ -151,7 +151,7 @@ class OpedManager(UserListManager):
         return {"error": "False", "message": "need to implement this message."}
 
     def get(self):
-        return self.user_list
+        return UserListManager.jsonify(self.user_list)
 
     def user(self, user: str):
 
