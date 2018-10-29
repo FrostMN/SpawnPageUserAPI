@@ -68,6 +68,10 @@ def admin_user(uuid: str):
     if request.method == "DELETE":
 
         profile = mojang.profile(uuid)
-        message = whitelist.remove(profile['payload']['name'])
+        player = profile['payload']['name']
+
+        print(player)
+
+        message = whitelist.remove(player)
 
     return str(message)
