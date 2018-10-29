@@ -79,6 +79,9 @@ class SystemdManager(CommandManager):
 
     def deop(self, user: str):
         deop_cmd = "deop {}".format(user)
+
+        print(deop_cmd)
+
         os.system(self.cmd.format(self.session, deop_cmd))
 
     def whitelist_add(self, user: str):
