@@ -115,6 +115,18 @@ class UserListManager(ABC):
     def remove(self, user: str):
         pass
 
+    # @abstractmethod
+    def user(self, user: str):
+        pass
+
+    def jsonify(self, data: dict, status: int=200, indent: int = 4, sort_keys: bool=True):
+
+        response = make_response(json.dumps(data, indent=indent, sort_keys=sort_keys))
+        response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        response.headers['mimetype'] = 'application/json'
+        response.status_code = status
+        return response
+
 
 class OpedManager(UserListManager):
 
@@ -150,7 +162,7 @@ class OpedManager(UserListManager):
                 if user_list:
                     if "name" in u.keys():
                         if u['name'] == user:
-                            return str(u)
+                            return UserListManager.jsonify(data=u)
         return "[]"
 
 
