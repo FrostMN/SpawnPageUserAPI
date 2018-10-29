@@ -60,19 +60,16 @@ def admin_usernames():
 @app.route('/api/v1/admin/<uuid>', methods=["GET", "DELETE"])
 def admin_user(uuid: str):
 
-    message = ""
-    whitelist = OpedManager(conf)
+    opped = OpedManager(conf)
     mojang = MojangAPI()
+    profile = mojang.profile(uuid)
+    player = profile['payload']['name']
 
     # Adds user from post to white list
     if request.method == "DELETE":
 
-        print("in delete")
-        profile = mojang.profile(uuid)
-        player = profile['payload']['name']
+        message = opped.remove(player)
 
-        print(player)
+        return str(message)
 
-        message = whitelist.remove(player)
-
-    return str(message)
+    return opped.user(player)

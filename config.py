@@ -9,6 +9,7 @@ class Config(object):
     type = "screen"
     session = "forge"
     whitelist = _basedir + '/data/whitelist.json'
+    mc_root = "/srv/minecraft"
 
 
 class DevConfig(Config):

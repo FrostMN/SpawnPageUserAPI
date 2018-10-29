@@ -1,4 +1,5 @@
 import json
+import os
 import ast
 from flask import make_response, request
 from config import Config as conf
@@ -26,7 +27,7 @@ from config import Config
 #         for i in self.user_list:
 #             print(i)
 #
-#     def get(self, uuid: str):
+#     def user(self, uuid: str):
 #         for user in self.user_list:
 #             if user["uuid"] == uuid:
 #                 return user
@@ -86,7 +87,7 @@ from config import Config
 #
 #         if uuid:
 #
-#             user = self.get(uuid)
+#             user = self.user(uuid)
 #
 #             response = make_response(json.dumps(user, indent=indent, sort_keys=sort_keys))
 #             response.headers['Content-Type'] = 'application/json; charset=utf-8'
@@ -119,6 +120,7 @@ class OpedManager(UserListManager):
 
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config)
+        self.mc_root = config.mc_root
 
     def add(self, user: str):
         self.command.op(user)
@@ -127,6 +129,19 @@ class OpedManager(UserListManager):
     def remove(self, user: str):
         self.command.deop(user)
         return {"error": "False", "message": "need to implement this message."}
+
+    def user(self, user: str):
+
+        file_path = os.path.join(self.mc_root, "ops.json")
+
+        with open(file_path) as json_file:
+            user_list = json.load(json_file)
+
+            for u in user_list:
+                if user_list:
+                    if "name" in u.keys():
+                        if u['name'] == user:
+                            return u
 
 
 class WhitelistManager(UserListManager):
