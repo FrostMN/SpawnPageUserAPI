@@ -116,6 +116,10 @@ class UserListManager(ABC):
         pass
 
     # @abstractmethod
+    def get(self, user: str):
+        pass
+
+    # @abstractmethod
     def user(self, user: str):
         pass
 
@@ -133,7 +137,10 @@ class OpedManager(UserListManager):
 
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config)
-        self.mc_root = config.mc_root
+        self.path = os.path.join(config.mc_root, "ops.json")
+
+        with open(self.path) as json_file:
+            self.user_list = json.load(json_file)
 
     def add(self, user: str):
         self.command.op(user)
@@ -143,27 +150,25 @@ class OpedManager(UserListManager):
         self.command.deop(user)
         return {"error": "False", "message": "need to implement this message."}
 
+    def get(self):
+        pass
+
     def user(self, user: str):
 
-        print(user)
+        # file_path = os.path.join(self.path, "ops.json")
 
-        file_path = os.path.join(self.mc_root, "ops.json")
+        # with open(self.path) as json_file:
+        #     user_list = json.load(json_file)
 
-        print(file_path)
+        for u in self.user_list
 
-        with open(file_path) as json_file:
-            user_list = json.load(json_file)
+            print(u)
 
-            print(user_list)
+            if user_list:
+                if "name" in u.keys():
+                    if u['name'] == user:
+                        return UserListManager.jsonify(data=[u])
 
-            for u in user_list:
-
-                print(u)
-
-                if user_list:
-                    if "name" in u.keys():
-                        if u['name'] == user:
-                            return UserListManager.jsonify(data=[u])
         return UserListManager.jsonify(data=[])
 
 
