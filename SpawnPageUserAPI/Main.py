@@ -54,7 +54,7 @@ def admin_usernames():
     if request.method == "POST":
         oped.add(req['username'])
 
-    return ""
+    return oped.get()
 
 
 @app.route('/api/v1/admin/<uuid>', methods=["GET", "DELETE"])
