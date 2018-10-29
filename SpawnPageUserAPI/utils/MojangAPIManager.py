@@ -36,10 +36,12 @@ class MojangAPI(APIManager):
         return {"error": error, "payload": payload}
 
 
-api = MojangAPI()
+if __name__ == '__main__':
 
-p = api.profile("f2c802de0196422fbe91b7b8bc078d03")
-print(p)
+    api = MojangAPI()
 
-p = api.profile("f2c802de0196422fbe91b7b8bc078d03")
-print(p)
+    p = api.profile("f2c802de0196422fbe91b7b8bc078d03")
+    print(p)
+
+    p = api.profile("f2c802de0196422fbe91b7b8bc078d03")
+    print(p)

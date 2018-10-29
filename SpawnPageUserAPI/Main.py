@@ -60,6 +60,7 @@ def admin_usernames():
 @app.route('/api/v1/admin/<uuid>', methods=["GET", "DELETE"])
 def admin_user(uuid: str):
 
+    message = ""
     whitelist = WhitelistManager(conf)
     mojang = MojangAPI()
 
@@ -67,6 +68,6 @@ def admin_user(uuid: str):
     if request.method == "DELETE":
 
         profile = mojang.profile(uuid)
-        whitelist.remove(profile['name'])
+        message = whitelist.remove(profile['payload']['name'])
 
-    return ""
+    return str(message)

@@ -122,9 +122,11 @@ class OpedManager(UserListManager):
 
     def add(self, user: str):
         self.command.op(user)
+        return {"error": "False", "message": "need to implement this message."}
 
     def remove(self, user: str):
         self.command.deop(user)
+        return {"error": "False", "message": "need to implement this message."}
 
 
 class WhitelistManager(UserListManager):
@@ -134,9 +136,11 @@ class WhitelistManager(UserListManager):
 
     def add(self, user: str):
         self.command.whitelist_add(user)
+        return {"error": "False", "message": "need to implement this message."}
 
     def remove(self, user: str):
         self.command.whitelist_remove(user)
+        return {"error": "False", "message": "need to implement this message."}
 
 
 class BanManager(UserListManager):
@@ -146,6 +150,8 @@ class BanManager(UserListManager):
 
     def add(self, user: str):
         self.command.ban(user)
+        return {"error": "False", "message": "need to implement this message."}
 
     def remove(self, user: str):
         self.command.pardon(user)
+        return {"error": "False", "message": "need to implement this message."}
