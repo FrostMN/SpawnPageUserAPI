@@ -150,7 +150,7 @@ class OpedManager(UserListManager):
                 if user_list:
                     if "name" in u.keys():
                         if u['name'] == user:
-                            return str([u])
+                            return str(u)
         return "[]"
 
 
