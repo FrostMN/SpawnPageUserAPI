@@ -119,6 +119,7 @@ class UserListManager(ABC):
     def user(self, user: str):
         pass
 
+    @staticmethod
     def jsonify(self, data: dict, status: int=200, indent: int = 4, sort_keys: bool=True):
 
         response = make_response(json.dumps(data, indent=indent, sort_keys=sort_keys))
@@ -164,6 +165,7 @@ class OpedManager(UserListManager):
                         if u['name'] == user:
                             return UserListManager.jsonify(data=u)
         return "[]"
+
 
 
 class WhitelistManager(UserListManager):
