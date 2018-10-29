@@ -61,7 +61,7 @@ def admin_usernames():
 def admin_user(uuid: str):
 
     message = ""
-    whitelist = WhitelistManager(conf)
+    whitelist = OpedManager(conf)
     mojang = MojangAPI()
 
     # Adds user from post to white list
