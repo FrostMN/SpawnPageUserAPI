@@ -48,10 +48,10 @@ def whitelist_user(uuid: str):
 def admin_usernames():
 
     oped = OpedManager(conf)
-    req = ast.literal_eval(request.data.decode("utf-8"))
 
     # Adds user from post to white list
     if request.method == "POST":
+        req = ast.literal_eval(request.data.decode("utf-8"))
         oped.add(req['username'])
 
     return oped.get()
