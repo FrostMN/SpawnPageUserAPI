@@ -67,6 +67,7 @@ def admin_user(uuid: str):
     # Adds user from post to white list
     if request.method == "DELETE":
 
+        print("in delete")
         profile = mojang.profile(uuid)
         player = profile['payload']['name']
 
