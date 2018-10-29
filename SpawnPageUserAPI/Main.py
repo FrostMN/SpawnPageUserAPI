@@ -1,5 +1,6 @@
 from flask import Flask, request
 from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OpedManager, BanManager
+from SpawnPageUserAPI.utils.MojangAPIManager import MojangAPI
 import ast
 import json
 
@@ -52,5 +53,20 @@ def admin_usernames():
     # Adds user from post to white list
     if request.method == "POST":
         oped.add(req['username'])
+
+    return ""
+
+
+@app.route('/api/v1/admin/<uuid>', methods=["GET", "DELETE"])
+def admin_user(uuid: str):
+
+    whitelist = WhitelistManager(conf)
+    mojang = MojangAPI()
+
+    # Adds user from post to white list
+    if request.method == "DELETE":
+
+        profile = mojang.profile(uuid)
+        whitelist.remove(profile['name'])
 
     return ""
