@@ -116,7 +116,7 @@ class UserListManager(ABC):
         pass
 
     # @abstractmethod
-    def get(self, user: str):
+    def get(self):
         pass
 
     # @abstractmethod
@@ -151,7 +151,7 @@ class OpedManager(UserListManager):
         return {"error": "False", "message": "need to implement this message."}
 
     def get(self):
-        pass
+        return self.user_list
 
     def user(self, user: str):
 
