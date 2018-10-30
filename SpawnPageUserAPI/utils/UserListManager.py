@@ -28,11 +28,11 @@ class UserListManager(ABC):
 
     def get(self, item: str=None):
         if item:
-            return UserListManager.jsonify(self._single_item(item=item))
+            return UserListManager.jsonify(data=self._single_item(item=item))
         else:
             return UserListManager.jsonify(self.user_list)
 
-    # @abstractmethod
+    @abstractmethod
     def _single_item(self, item: str):
         pass
 
@@ -66,7 +66,7 @@ class OpedManager(UserListManager):
     # def get(self):
     #     return UserListManager.jsonify(self.user_list)
 
-    def _single_item(self, user: str):
+    def _single_item(self, item: str):
 
         for u in self.user_list:
 
@@ -74,7 +74,7 @@ class OpedManager(UserListManager):
 
             if self.user_list:
                 if "name" in u.keys():
-                    if u['name'] == user:
+                    if u['name'] == item:
                         return UserListManager.jsonify(data=[u])
 
         return UserListManager.jsonify(data=[])
@@ -99,7 +99,7 @@ class WhitelistManager(UserListManager):
         self.command.whitelist_remove(user)
         return {"error": "False", "message": "need to implement this message."}
 
-    def _single_item(self, user: str):
+    def _single_item(self, item: str):
 
         for u in self.user_list:
 
@@ -107,7 +107,7 @@ class WhitelistManager(UserListManager):
 
             if self.user_list:
                 if "name" in u.keys():
-                    if u['name'] == user:
+                    if u['name'] == item:
                         return UserListManager.jsonify(data=[u])
 
         return UserListManager.jsonify(data=[])
@@ -130,7 +130,7 @@ class BannedPlayerManager(UserListManager):
         self.command.pardon(user)
         return {"error": "False", "message": "need to implement this message."}
 
-    def _single_item(self, user: str):
+    def _single_item(self, item: str):
 
         for u in self.user_list:
 
@@ -138,7 +138,7 @@ class BannedPlayerManager(UserListManager):
 
             if self.user_list:
                 if "name" in u.keys():
-                    if u['name'] == user:
+                    if u['name'] == item:
                         return UserListManager.jsonify(data=[u])
 
         return UserListManager.jsonify(data=[])
@@ -161,7 +161,7 @@ class BannedIPManager(UserListManager):
         self.command.pardon_ip(user)
         return {"error": "False", "message": "need to implement this message."}
 
-    def _single_item(self, user: str):
+    def _single_item(self, item: str):
 
         for u in self.user_list:
 
@@ -169,7 +169,7 @@ class BannedIPManager(UserListManager):
 
             if self.user_list:
                 if "ip" in u.keys():
-                    if u['ip'] == user:
+                    if u['ip'] == item:
                         return UserListManager.jsonify(data=[u])
 
         return UserListManager.jsonify(data=[])

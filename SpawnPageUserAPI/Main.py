@@ -78,6 +78,8 @@ def admin_user(uuid: str):
     profile = mojang.profile(uuid)
     player = profile['payload']['name']
 
+    print(player)
+
     # Removes Player in DELETE from ops.json
     if request.method == "DELETE":
 
