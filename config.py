@@ -18,5 +18,11 @@ class DevConfig(Config):
     mc_root = os.path.join(_basedir, "data")
 
 
+class StagingConfig(Config):
+
+    DEBUG = True
+    mc_root = "/srv/minecraft"
+
+
 
 
