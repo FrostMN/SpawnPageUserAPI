@@ -15,6 +15,7 @@ class Config(object):
 class DevConfig(Config):
 
     DEBUG = True
+    mc_root = os.path.join(_basedir, "data")
 
 
 

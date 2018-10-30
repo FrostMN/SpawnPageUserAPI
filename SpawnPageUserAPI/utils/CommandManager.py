@@ -30,6 +30,13 @@ class CommandManager(ABC):
     def pardon(self, user: str):
         pass
 
+    @abstractmethod
+    def ban_ip(self, address: str):
+        pass
+
+    @abstractmethod
+    def pardon_ip(self, address: str):
+        pass
 
 class ScreenManager(CommandManager):
 
@@ -61,6 +68,14 @@ class ScreenManager(CommandManager):
 
     def pardon(self, user: str):
         par_cmd = "pardon {}".format(user)
+        os.system(self.cmd.format(self.session, par_cmd))
+
+    def ban_ip(self, address: str):
+        ban_cmd = "ban-ip {}".format(address)
+        os.system(self.cmd.format(self.session, ban_cmd))
+
+    def pardon_ip(self, address: str):
+        par_cmd = "pardon-ip {}".format(address)
         os.system(self.cmd.format(self.session, par_cmd))
 
 
@@ -98,6 +113,14 @@ class SystemdManager(CommandManager):
 
     def pardon(self, user: str):
         par_cmd = "pardon {}".format(user)
+        os.system(self.cmd.format(self.session, par_cmd))
+
+    def ban_ip(self, address: str):
+        ban_cmd = "ban-ip {}".format(address)
+        os.system(self.cmd.format(self.session, ban_cmd))
+
+    def pardon_ip(self, address: str):
+        par_cmd = "pardon-ip {}".format(address)
         os.system(self.cmd.format(self.session, par_cmd))
 
 

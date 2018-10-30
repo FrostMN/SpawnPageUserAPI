@@ -27,49 +27,49 @@ from config import Config
 #         for i in self.user_list:
 #             print(i)
 #
-#     def user(self, uuid: str):
-#         for user in self.user_list:
-#             if user["uuid"] == uuid:
-#                 return user
-#         return {"message": "user does not exist (needs to be rxpanded)"}
+#     def _single_item(self, uuid: str):
+#         for _single_item in self.user_list:
+#             if _single_item["uuid"] == uuid:
+#                 return _single_item
+#         return {"message": "_single_item does not exist (needs to be rxpanded)"}
 #
-#     def add(self, user: Union[dict, bytes]) -> dict:
+#     def add(self, _single_item: Union[dict, bytes]) -> dict:
 #
-#         if isinstance(user, bytes):
-#             user = ast.literal_eval(user.decode('utf-8'))
+#         if isinstance(_single_item, bytes):
+#             _single_item = ast.literal_eval(_single_item.decode('utf-8'))
 #
 #         unique = True
 #
-#         if "uuid" in user.keys():
+#         if "uuid" in _single_item.keys():
 #             for i in self.user_list:
 #                 if "uuid" in i.keys():
-#                     if i['uuid'] == user["uuid"]:
+#                     if i['uuid'] == _single_item["uuid"]:
 #                         unique = False
 #
 #         if unique:
-#             self.user_list.append(user)
-#             return {"message": "user added (this should be expanded on)"}
-#         return {"message": "user already exists (this should be expanded on)"}
+#             self.user_list.append(_single_item)
+#             return {"message": "_single_item added (this should be expanded on)"}
+#         return {"message": "_single_item already exists (this should be expanded on)"}
 #
-#     def remove(self, user: Union[dict, bytes]) -> dict:
+#     def remove(self, _single_item: Union[dict, bytes]) -> dict:
 #
-#         if isinstance(user, bytes):
-#             user = ast.literal_eval(user.decode('utf-8'))
+#         if isinstance(_single_item, bytes):
+#             _single_item = ast.literal_eval(_single_item.decode('utf-8'))
 #
 #         unique = True
 #         ind = 0
 #
-#         if "uuid" in user.keys():
+#         if "uuid" in _single_item.keys():
 #             for index, i in enumerate(self.user_list):
 #                 if "uuid" in i.keys():
-#                     if i["uuid"] == user["uuid"]:
+#                     if i["uuid"] == _single_item["uuid"]:
 #                         unique = False
 #                         ind = index
 #
 #         if not unique:
 #             self.user_list.pop(ind)
-#             return {"message": "user deleted from list (needs to be expanded)"}
-#         return {"message": "user not in list (needs to be expanded)"}
+#             return {"message": "_single_item deleted from list (needs to be expanded)"}
+#         return {"message": "_single_item not in list (needs to be expanded)"}
 #
 #     def save(self, path: str = None) -> None:
 #         if path:
@@ -87,9 +87,9 @@ from config import Config
 #
 #         if uuid:
 #
-#             user = self.user(uuid)
+#             _single_item = self._single_item(uuid)
 #
-#             response = make_response(json.dumps(user, indent=indent, sort_keys=sort_keys))
+#             response = make_response(json.dumps(_single_item, indent=indent, sort_keys=sort_keys))
 #             response.headers['Content-Type'] = 'application/json; charset=utf-8'
 #             response.headers['mimetype'] = 'application/json'
 #             response.status_code = status
@@ -106,6 +106,7 @@ from config import Config
 class UserListManager(ABC):
 
     # command: CommandManager
+    user_list = list()
 
     @abstractmethod
     def add(self, user: str):
@@ -115,12 +116,18 @@ class UserListManager(ABC):
     def remove(self, user: str):
         pass
 
-    # @abstractmethod
-    def get(self):
-        pass
+    # # @abstractmethod
+    # def get(self):
+    #     pass
+
+    def get(self, item: str=None):
+        if item:
+            return UserListManager.jsonify(self._single_item(item=item))
+        else:
+            return UserListManager.jsonify(self.user_list)
 
     # @abstractmethod
-    def user(self, user: str):
+    def _single_item(self, item: str):
         pass
 
     @staticmethod
@@ -150,15 +157,10 @@ class OpedManager(UserListManager):
         self.command.deop(user)
         return {"error": "False", "message": "need to implement this message."}
 
-    def get(self):
-        return UserListManager.jsonify(self.user_list)
+    # def get(self):
+    #     return UserListManager.jsonify(self.user_list)
 
-    def user(self, user: str):
-
-        # file_path = os.path.join(self.path, "ops.json")
-
-        # with open(self.path) as json_file:
-        #     user_list = json.load(json_file)
+    def _single_item(self, user: str):
 
         for u in self.user_list:
 
@@ -176,6 +178,12 @@ class WhitelistManager(UserListManager):
 
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config)
+        self.path = os.path.join(config.mc_root, "whitelist.json")
+
+        with open(self.path) as json_file:
+            print(self.path)
+            print(json_file)
+            self.user_list = json.load(json_file)
 
     def add(self, user: str):
         self.command.whitelist_add(user)
@@ -185,11 +193,28 @@ class WhitelistManager(UserListManager):
         self.command.whitelist_remove(user)
         return {"error": "False", "message": "need to implement this message."}
 
+    def _single_item(self, user: str):
 
-class BanManager(UserListManager):
+        for u in self.user_list:
+
+            print(u)
+
+            if self.user_list:
+                if "name" in u.keys():
+                    if u['name'] == user:
+                        return UserListManager.jsonify(data=[u])
+
+        return UserListManager.jsonify(data=[])
+
+
+class BannedPlayerManager(UserListManager):
 
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config)
+        self.path = os.path.join(config.mc_root, "banned-players.json")
+
+        with open(self.path) as json_file:
+            self.user_list = json.load(json_file)
 
     def add(self, user: str):
         self.command.ban(user)
@@ -198,3 +223,47 @@ class BanManager(UserListManager):
     def remove(self, user: str):
         self.command.pardon(user)
         return {"error": "False", "message": "need to implement this message."}
+
+    def _single_item(self, user: str):
+
+        for u in self.user_list:
+
+            print(u)
+
+            if self.user_list:
+                if "name" in u.keys():
+                    if u['name'] == user:
+                        return UserListManager.jsonify(data=[u])
+
+        return UserListManager.jsonify(data=[])
+
+
+class BannedIPManager(UserListManager):
+
+    def __init__(self, config: Config):
+        self.command = CommandManagerFactory(config)
+        self.path = os.path.join(config.mc_root, "banned-ips.json")
+
+        with open(self.path) as json_file:
+            self.user_list = json.load(json_file)
+
+    def add(self, user: str):
+        self.command.ban_ip(user)
+        return {"error": "False", "message": "need to implement this message."}
+
+    def remove(self, user: str):
+        self.command.pardon_ip(user)
+        return {"error": "False", "message": "need to implement this message."}
+
+    def _single_item(self, user: str):
+
+        for u in self.user_list:
+
+            print(u)
+
+            if self.user_list:
+                if "ip" in u.keys():
+                    if u['ip'] == user:
+                        return UserListManager.jsonify(data=[u])
+
+        return UserListManager.jsonify(data=[])
