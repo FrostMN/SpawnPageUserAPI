@@ -2,14 +2,13 @@ from flask import Flask, request
 from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OpedManager, BannedPlayerManager, BannedIPManager
 from SpawnPageUserAPI.utils.MojangAPIManager import MojangAPI
 import ast
+from SpawnPageUserAPI.application import app
+from SpawnPageUserAPI.application import conf
 import os
 import json
 
 # from config import ConfigPicker
 # conf = ConfigPicker(os.environ['ENV'])
-
-from SpawnPageUserAPI.application import app
-from SpawnPageUserAPI.application import conf
 
 
 @app.route('/')
