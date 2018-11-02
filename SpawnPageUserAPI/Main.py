@@ -5,10 +5,11 @@ import ast
 import os
 import json
 
-from config import ConfigPicker
-conf = ConfigPicker(os.environ['ENV'])
+# from config import ConfigPicker
+# conf = ConfigPicker(os.environ['ENV'])
 
 from SpawnPageUserAPI.application import app
+from SpawnPageUserAPI.application import conf
 
 
 @app.route('/')
