@@ -2,9 +2,11 @@ from flask import Flask, request
 from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OpedManager, BannedPlayerManager, BannedIPManager
 from SpawnPageUserAPI.utils.MojangAPIManager import MojangAPI
 import ast
+import os
 import json
 
-from config import DevConfig as conf
+from config import ConfigPicker
+conf = ConfigPicker(os.environ['ENV'])
 
 from SpawnPageUserAPI.application import app
 
@@ -77,8 +79,6 @@ def admin_user(uuid: str):
     uuid = uuid.replace("-", "")
     profile = mojang.profile(uuid)
     player = profile['payload']['name']
-
-    print(player)
 
     # Removes Player in DELETE from ops.json
     if request.method == "DELETE":
