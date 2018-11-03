@@ -19,7 +19,7 @@ def hello_world():
 @app.route('/test')
 def test():
 
-    print(request.headers)
+    print(request.headers['Authorization'])
 
     return 'Hello World!'
 
@@ -38,6 +38,7 @@ def whitelist_users():
     if request.method == "POST":
 
         req = ast.literal_eval(request.data.decode("utf-8"))
+
         message = whitelist.add(req['username'])
 
         return message
