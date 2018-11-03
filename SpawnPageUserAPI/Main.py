@@ -105,17 +105,18 @@ def banned_players():
 
 @app.route('/api/v1/banned/<uuid>', methods=["GET", "POST"])
 def banned_player(uuid: str):
+    banned = BannedPlayerManager(conf)
+    mojang = MojangAPI()
 
     uuid = uuid.replace("-", "")
-
-    banned = BannedPlayerManager(conf)
+    profile = mojang.profile(uuid)
+    player = profile['payload']['name']
 
     # removes Player in DELETE from banned-players.json
     if request.method == "DELETE":
 
-        req = ast.literal_eval(request.data.decode("utf-8"))
+        message = banned.remove(player)
 
-        message = banned.remove(req['address'])
         return message
 
     return banned.get()

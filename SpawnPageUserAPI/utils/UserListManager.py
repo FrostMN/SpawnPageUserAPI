@@ -22,23 +22,18 @@ class UserListManager(ABC):
     def remove(self, user: str):
         pass
 
-    # # @abstractmethod
-    # def get(self):
-    #     pass
-
     def get(self, item: str=None):
         if item:
-            return UserListManager.jsonify(data=self._single_item(item=item))
+            return self._single_item(item=item)
         else:
             return UserListManager.jsonify(self.user_list)
 
     @abstractmethod
-    def _single_item(self, item: str):
+    def _single_item(self, item: str) -> [dict]:
         pass
 
     @staticmethod
     def jsonify(data, status: int=200, indent: int = 4, sort_keys: bool=True):
-
         response = make_response(json.dumps(data, indent=indent, sort_keys=sort_keys))
         response.headers['Content-Type'] = 'application/json; charset=utf-8'
         response.headers['mimetype'] = 'application/json'
@@ -63,15 +58,8 @@ class OpedManager(UserListManager):
         self.command.deop(user)
         return {"error": "False", "message": "need to implement this message."}
 
-    # def get(self):
-    #     return UserListManager.jsonify(self.user_list)
-
     def _single_item(self, item: str):
-
         for u in self.user_list:
-
-            print(u)
-
             if self.user_list:
                 if "name" in u.keys():
                     if u['name'] == item:
@@ -87,8 +75,6 @@ class WhitelistManager(UserListManager):
         self.path = os.path.join(config.mc_root, "whitelist.json")
 
         with open(self.path) as json_file:
-            print(self.path)
-            print(json_file)
             self.user_list = json.load(json_file)
 
     def add(self, user: str):
@@ -100,11 +86,7 @@ class WhitelistManager(UserListManager):
         return {"error": "False", "message": "need to implement this message."}
 
     def _single_item(self, item: str):
-
         for u in self.user_list:
-
-            print(u)
-
             if self.user_list:
                 if "name" in u.keys():
                     if u['name'] == item:
@@ -131,11 +113,7 @@ class BannedPlayerManager(UserListManager):
         return {"error": "False", "message": "need to implement this message."}
 
     def _single_item(self, item: str):
-
         for u in self.user_list:
-
-            print(u)
-
             if self.user_list:
                 if "name" in u.keys():
                     if u['name'] == item:
@@ -162,11 +140,7 @@ class BannedIPManager(UserListManager):
         return {"error": "False", "message": "need to implement this message."}
 
     def _single_item(self, item: str):
-
         for u in self.user_list:
-
-            print(u)
-
             if self.user_list:
                 if "ip" in u.keys():
                     if u['ip'] == item:
