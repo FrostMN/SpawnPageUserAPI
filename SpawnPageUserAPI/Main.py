@@ -16,6 +16,14 @@ def hello_world():
     return 'Hello World!'
 
 
+@app.route('/test')
+def test():
+
+    print(request.headers)
+
+    return 'Hello World!'
+
+
 @app.route('/api/v1/ping')
 def pong():
     return '{ "message": "pong" }'
