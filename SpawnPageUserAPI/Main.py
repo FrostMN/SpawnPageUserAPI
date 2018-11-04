@@ -41,6 +41,8 @@ def whitelist_users():
 
         message = whitelist.add(req['username'])
 
+        print(message)
+
         return message
 
     return whitelist.get()
