@@ -1,5 +1,5 @@
 from flask import Flask, request
-from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OpedManager, BannedPlayerManager, BannedIPManager
+from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OpedManager, BannedPlayerManager, BannedIPManager, UserListManager
 from SpawnPageUserAPI.utils.MojangAPIManager import MojangAPI
 import ast
 from SpawnPageUserAPI.application import app
@@ -43,7 +43,7 @@ def whitelist_users():
 
         print(message)
 
-        return message
+        return UserListManager.jsonify(message)
 
     return whitelist.get()
 
