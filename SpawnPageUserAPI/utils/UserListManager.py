@@ -13,6 +13,7 @@ class UserListManager(ABC):
 
     # command: CommandManager
     user_list = list()
+
     path = ""
 
     @abstractmethod
@@ -79,6 +80,10 @@ class WhitelistManager(UserListManager):
         self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
+        for u in self.user_list:
+            if u['name'] == user:
+                message = "User {} is already in the whitelidt.".format(user)
+                return {"error": False, "message": message}
         self.command.whitelist_add(user)
         return {"error": "False", "message": "need to implement this message."}
 
