@@ -86,6 +86,14 @@ class WhitelistManager(UserListManager):
                 message = "User '{}' is already in the whitelist.".format(str(u['name']))
                 return {"error": False, "message": message, "user": u}
         self.command.whitelist_add(user)
+
+        new_list = self.load_list(self.path)
+
+        for u in new_list:
+            if u['name'].lower() == user.lower():
+                message = "User '{}' was added to the whitelist.".format(str(u['name']))
+                return {"error": False, "message": message, "user": u}
+
         return {"error": "False", "message": "need to implement this message."}
 
     def remove(self, user: str):
