@@ -4,9 +4,9 @@ from SpawnPageUserAPI.utils.MojangAPIManager import MojangAPI
 import ast
 from SpawnPageUserAPI.application import app
 from SpawnPageUserAPI.application import conf
-import os
-import json
 
+# import os
+# import json
 # from config import ConfigPicker
 # conf = ConfigPicker(os.environ['ENV'])
 
@@ -41,8 +41,6 @@ def whitelist_users():
 
         message = whitelist.add(req['username'])
 
-        print(message)
-
         return UserListManager.jsonify(message)
 
     return whitelist.get()
@@ -56,6 +54,9 @@ def whitelist_user(uuid: str):
 
     uuid = uuid.replace("-", "")
     profile = mojang.profile(uuid)
+
+    print(profile)
+
     player = profile['payload']['name']
 
     # Removes Player in DELETE from whitelist.json
@@ -63,7 +64,7 @@ def whitelist_user(uuid: str):
 
         message = whitelist.remove(player)
 
-        return message
+        return UserListManager.jsonify(message)
 
     return whitelist.get(item=player)
 
@@ -96,7 +97,7 @@ def admin_user(uuid: str):
 
         message = opped.remove(player)
 
-        return str(message)
+        return UserListManager.jsonify(message)
 
     return opped.get(item=player)
 
@@ -128,7 +129,7 @@ def banned_player(uuid: str):
 
         message = banned.remove(player)
 
-        return message
+        return UserListManager.jsonify(message)
 
     return banned.get()
 
@@ -159,6 +160,7 @@ def banned_address(address: str):
         req = ast.literal_eval(request.data.decode("utf-8"))
 
         message = banned_ip.remove(req['address'])
-        return message
+
+        return UserListManager.jsonify(message)
 
     return banned_ip.get()

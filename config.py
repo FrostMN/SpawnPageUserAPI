@@ -50,3 +50,6 @@ def ConfigPicker(env: str):
         return StagingConfig
     if env == 'TEST':
         return TestConfig
+
+
+del os
