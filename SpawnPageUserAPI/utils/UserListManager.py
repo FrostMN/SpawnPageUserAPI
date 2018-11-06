@@ -1,6 +1,7 @@
 import json
 import os
 import ast
+import time
 from flask import make_response, request
 from config import Config as conf
 from typing import Union
@@ -87,7 +88,11 @@ class WhitelistManager(UserListManager):
                 return {"error": False, "message": message, "user": u}
         self.command.whitelist_add(user)
 
+        time.sleep(1)
+
         new_list = self.load_list(self.path)
+
+        print(new_list)
 
         for u in new_list:
             if u['name'].lower() == user.lower():
