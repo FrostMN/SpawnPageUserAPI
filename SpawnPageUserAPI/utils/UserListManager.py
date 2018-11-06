@@ -82,7 +82,7 @@ class WhitelistManager(UserListManager):
     def add(self, user: str):
         print(self.user_list)
         for u in self.user_list:
-            if u['name'] == user:
+            if u['name'].lower() == user.lower():
                 message = "User {} is already in the whitelidt.".format(user)
                 return {"error": False, "message": message}
         self.command.whitelist_add(user)
