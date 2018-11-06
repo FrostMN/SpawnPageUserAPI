@@ -80,6 +80,7 @@ class WhitelistManager(UserListManager):
         self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
+        print(self.user_list)
         for u in self.user_list:
             if u['name'] == user:
                 message = "User {} is already in the whitelidt.".format(user)
