@@ -13,6 +13,7 @@ class UserListManager(ABC):
 
     # command: CommandManager
     user_list = list()
+    path = ""
 
     @abstractmethod
     def add(self, user: str):
@@ -40,15 +41,17 @@ class UserListManager(ABC):
         response.status_code = status
         return response
 
+    def load_list(self, path: str):
+        with open(self.path) as json_file:
+            return json.load(json_file)
+
 
 class OpedManager(UserListManager):
 
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config)
         self.path = os.path.join(config.mc_root, "ops.json")
-
-        with open(self.path) as json_file:
-            self.user_list = json.load(json_file)
+        self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
         self.command.op(user)
@@ -73,9 +76,7 @@ class WhitelistManager(UserListManager):
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config)
         self.path = os.path.join(config.mc_root, "whitelist.json")
-
-        with open(self.path) as json_file:
-            self.user_list = json.load(json_file)
+        self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
         self.command.whitelist_add(user)
@@ -100,9 +101,7 @@ class BannedPlayerManager(UserListManager):
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config)
         self.path = os.path.join(config.mc_root, "banned-players.json")
-
-        with open(self.path) as json_file:
-            self.user_list = json.load(json_file)
+        self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
         self.command.ban(user)
@@ -127,9 +126,7 @@ class BannedIPManager(UserListManager):
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config)
         self.path = os.path.join(config.mc_root, "banned-ips.json")
-
-        with open(self.path) as json_file:
-            self.user_list = json.load(json_file)
+        self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
         self.command.ban_ip(user)
