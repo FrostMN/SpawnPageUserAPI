@@ -105,6 +105,7 @@ class WhitelistManager(UserListManager):
         message = "There was an error removing '{}' from the whitelist. (this could be more robust)".format(user)
 
         for u in self.user_list:
+            print(u)
             if u['name'].lower() == user.lower():
                 self.command.whitelist_remove(user)
                 message = "User '{}' was removed from the whitelist.".format(str(u['name']))
