@@ -96,12 +96,24 @@ class WhitelistManager(UserListManager):
             if u['name'].lower() == user.lower():
                 message = "User '{}' was added to the whitelist.".format(str(u['name']))
                 return {"error": False, "message": message, "user": u}
-        message = "There was an error adding {} to the whitelist. (this could be more robust)".format(user)
+        message = "There was an error adding '{}' to the whitelist. (this could be more robust)".format(user)
         return {"error": "True", "message": message}
 
     def remove(self, user: str):
-        self.command.whitelist_remove(user)
-        return {"error": "False", "message": "need to implement this message."}
+
+        exists = False
+        message = "There was an error removing '{}' from the whitelist. (this could be more robust)".format(user)
+
+        for u in self.user_list:
+            if u['name'].lower() == user.lower():
+                self.command.whitelist_remove(user)
+                message = "User '{}' was removed from the whitelist.".format(str(u['name']))
+                exists = True
+
+        if exists:
+            return {"error": "False", "message": message}
+        else:
+            return {"error": "False", "message": message}
 
     def _single_item(self, item: str):
         for u in self.user_list:
