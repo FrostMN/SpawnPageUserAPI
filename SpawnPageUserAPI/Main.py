@@ -1,5 +1,5 @@
 from flask import Flask, request
-from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OpedManager, BannedPlayerManager, BannedIPManager, UserListManager
+from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OppedManager, BannedPlayerManager, BannedIPManager, UserListManager
 from SpawnPageUserAPI.utils.MojangAPIManager import MojangAPI
 import ast
 from SpawnPageUserAPI.application import app
@@ -68,23 +68,23 @@ def whitelist_user(uuid: str):
 @app.route('/api/v1/admin', methods=["GET", "POST"])
 def admin_usernames():
 
-    oped = OpedManager(conf)
+    # create OppedManager
+    opped = OppedManager(conf)
 
     # Adds Player in POST to ops.json
     if request.method == "POST":
         req = ast.literal_eval(request.data.decode("utf-8"))
-        message = oped.add(req['username'])
+        message = opped.add(req['username'])
 
         return UserListManager.jsonify(message)
 
-
-    return oped.get()
+    return opped.get()
 
 
 @app.route('/api/v1/admin/<uuid>', methods=["GET", "DELETE"])
 def admin_user(uuid: str):
 
-    opped = OpedManager(conf)
+    opped = OppedManager(conf)
     mojang = MojangAPI()
 
     uuid = uuid.replace("-", "")

@@ -48,7 +48,7 @@ class UserListManager(ABC):
             return json.load(json_file)
 
 
-class OpedManager(UserListManager):
+class OppedManager(UserListManager):
 
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config)
@@ -56,8 +56,6 @@ class OpedManager(UserListManager):
         self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
-        # self.command.op(user)
-        # return {"error": "False", "message": "need to implement this message."}
 
         for u in self.user_list:
             if u['name'].lower() == user.lower():
@@ -65,7 +63,8 @@ class OpedManager(UserListManager):
                 return {"error": True, "message": message, "user": u}
         self.command.op(user)
 
-        time.sleep(1)
+        # This probably need to be improved
+        time.sleep(3)
         new_list = self.load_list(self.path)
 
         for u in new_list:
@@ -76,8 +75,6 @@ class OpedManager(UserListManager):
         return {"error": "True", "message": message}
 
     def remove(self, user: str):
-        # self.command.deop(user)
-        # return {"error": "False", "message": "need to implement this message."}
 
         exists = False
         message = "User '{}' was not opped.".format(user)
@@ -89,7 +86,7 @@ class OpedManager(UserListManager):
                 exists = True
 
         # This probably need to be improved
-        time.sleep(1)
+        time.sleep(3)
         new_list = self.load_list(self.path)
 
         if exists:
@@ -126,7 +123,8 @@ class WhitelistManager(UserListManager):
                 return {"error": True, "message": message, "user": u}
         self.command.whitelist_add(user)
 
-        time.sleep(1)
+        # This probably needs to be improved
+        time.sleep(3)
         new_list = self.load_list(self.path)
 
         for u in new_list:
@@ -147,8 +145,8 @@ class WhitelistManager(UserListManager):
                 message = "User '{}' was removed from the whitelist.".format(str(u['name']))
                 exists = True
 
-        # This probably need to be improved
-        time.sleep(1)
+        # This probably needs to be improved
+        time.sleep(3)
         new_list = self.load_list(self.path)
 
         if exists:
@@ -185,8 +183,8 @@ class BannedPlayerManager(UserListManager):
                 return {"error": True, "message": message, "user": u}
         self.command.ban(user)
 
-        # This probably need to be improved
-        time.sleep(1)
+        # This probably needs to be improved
+        time.sleep(3)
         new_list = self.load_list(self.path)
 
         for u in new_list:
@@ -207,7 +205,8 @@ class BannedPlayerManager(UserListManager):
                 message = "User '{}' was pardoned.".format(str(u['name']))
                 exists = True
 
-        time.sleep(1)
+        # This probably needs to be improved
+        time.sleep(3)
         new_list = self.load_list(self.path)
 
         if exists:
