@@ -85,7 +85,7 @@ class WhitelistManager(UserListManager):
         for u in self.user_list:
             if u['name'].lower() == user.lower():
                 message = "User '{}' is already in the whitelist.".format(str(u['name']))
-                return {"error": False, "message": message, "user": u}
+                return {"error": True, "message": message, "user": u}
         self.command.whitelist_add(user)
 
         time.sleep(1)
@@ -95,13 +95,13 @@ class WhitelistManager(UserListManager):
             if u['name'].lower() == user.lower():
                 message = "User '{}' was added to the whitelist.".format(str(u['name']))
                 return {"error": False, "message": message, "user": u}
-        message = "There was an error adding '{}' to the whitelist. (this could be more robust)".format(user)
+        message = "There was an error adding '{}' to the whitelist.".format(user)
         return {"error": "True", "message": message}
 
     def remove(self, user: str):
 
         exists = False
-        message = "User '{}' was not in whitelist. (this could be more robust)".format(user)
+        message = "User '{}' was not in whitelist.".format(user)
 
         for u in self.user_list:
             print(u)
@@ -140,8 +140,24 @@ class BannedPlayerManager(UserListManager):
         self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
+        # self.command.ban(user)
+        # return {"error": "False", "message": "need to implement this message."}
+
+        for u in self.user_list:
+            if u['name'].lower() == user.lower():
+                message = "User '{}' has already been banned.".format(str(u['name']))
+                return {"error": True, "message": message, "user": u}
         self.command.ban(user)
-        return {"error": "False", "message": "need to implement this message."}
+
+        time.sleep(1)
+        new_list = self.load_list(self.path)
+
+        for u in new_list:
+            if u['name'].lower() == user.lower():
+                message = "User '{}' was banned.".format(str(u['name']))
+                return {"error": False, "message": message, "user": u}
+        message = "There was an error baning '{}'.".format(user)
+        return {"error": True, "message": message}
 
     def remove(self, user: str):
         self.command.pardon(user)
