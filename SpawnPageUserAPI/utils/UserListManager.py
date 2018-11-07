@@ -165,8 +165,31 @@ class BannedPlayerManager(UserListManager):
         return {"error": True, "message": message}
 
     def remove(self, user: str):
-        self.command.pardon(user)
-        return {"error": "False", "message": "need to implement this message."}
+        # self.command.pardon(user)
+        # return {"error": "False", "message": "need to implement this message."}
+
+        exists = False
+        message = "User '{}' was not banned.".format(user)
+
+        for u in self.user_list:
+            print(u)
+            if u['name'].lower() == user.lower():
+                self.command.pardon(user)
+                message = "User '{}' was pardoned.".format(str(u['name']))
+                exists = True
+
+        time.sleep(1)
+        new_list = self.load_list(self.path)
+
+        if exists:
+            if len(self.user_list) > len(new_list):
+                return {"error": False, "message": message}
+            else:
+                message = "There was an error pardoning '{}.'".format(user)
+                return {"error": True, "message": message}
+        else:
+            return {"error": True, "message": message}
+
 
     def _single_item(self, item: str):
         for u in self.user_list:
