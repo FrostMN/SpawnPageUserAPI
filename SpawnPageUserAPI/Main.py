@@ -109,11 +109,10 @@ def banned_players():
 
         return UserListManager.jsonify(message)
 
-
     return banned.get()
 
 
-@app.route('/api/v1/banned/<uuid>', methods=["GET", "POST"])
+@app.route('/api/v1/banned/<uuid>', methods=["GET", "DELETE"])
 def banned_player(uuid: str):
     banned = BannedPlayerManager(conf)
     mojang = MojangAPI()
@@ -128,7 +127,7 @@ def banned_player(uuid: str):
 
         return UserListManager.jsonify(message)
 
-    return banned.get()
+    return banned.get(item=player)
 
 
 @app.route('/api/v1/addresses', methods=["GET", "POST"])
