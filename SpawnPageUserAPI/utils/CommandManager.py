@@ -38,6 +38,7 @@ class CommandManager(ABC):
     def pardon_ip(self, address: str):
         pass
 
+
 class ScreenManager(CommandManager):
 
     session = ""
@@ -62,8 +63,8 @@ class ScreenManager(CommandManager):
         wl_rem = "whitelist remove {}".format(user)
         os.system(self.cmd.format(self.session, wl_rem))
 
-    def ban(self, user: str):
-        ban_cmd = "ban {}".format(user)
+    def ban(self, user: str, reason: str="Tis is a test."):
+        ban_cmd = "ban {user} {reason}".format(user=user, reason=reason)
         os.system(self.cmd.format(self.session, ban_cmd))
 
     def pardon(self, user: str):
