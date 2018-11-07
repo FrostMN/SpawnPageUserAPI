@@ -76,8 +76,30 @@ class OpedManager(UserListManager):
         return {"error": "True", "message": message}
 
     def remove(self, user: str):
-        self.command.deop(user)
-        return {"error": "False", "message": "need to implement this message."}
+        # self.command.deop(user)
+        # return {"error": "False", "message": "need to implement this message."}
+
+        exists = False
+        message = "User '{}' was not opped.".format(user)
+
+        for u in self.user_list:
+            if u['name'].lower() == user.lower():
+                self.command.deop(user)
+                message = "User '{}' was deopped.".format(str(u['name']))
+                exists = True
+
+        # This probably need to be improved
+        time.sleep(1)
+        new_list = self.load_list(self.path)
+
+        if exists:
+            if len(self.user_list) > len(new_list):
+                return {"error": False, "message": message}
+            else:
+                message = "There was an error deopping '{}.'".format(user)
+                return {"error": True, "message": message}
+        else:
+            return {"error": True, "message": message}
 
     def _single_item(self, item: str):
         for u in self.user_list:
@@ -120,7 +142,6 @@ class WhitelistManager(UserListManager):
         message = "User '{}' was not in whitelist.".format(user)
 
         for u in self.user_list:
-            print(u)
             if u['name'].lower() == user.lower():
                 self.command.whitelist_remove(user)
                 message = "User '{}' was removed from the whitelist.".format(str(u['name']))

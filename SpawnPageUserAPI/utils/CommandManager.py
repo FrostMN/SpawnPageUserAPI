@@ -63,7 +63,7 @@ class ScreenManager(CommandManager):
         wl_rem = "whitelist remove {}".format(user)
         os.system(self.cmd.format(self.session, wl_rem))
 
-    def ban(self, user: str, reason: str="Tis is a test."):
+    def ban(self, user: str, reason: str="Banned by an operator."):
         ban_cmd = "ban {user} {reason}".format(user=user, reason=reason)
         os.system(self.cmd.format(self.session, ban_cmd))
 
