@@ -73,7 +73,10 @@ def admin_usernames():
     # Adds Player in POST to ops.json
     if request.method == "POST":
         req = ast.literal_eval(request.data.decode("utf-8"))
-        oped.add(req['username'])
+        message = oped.add(req['username'])
+
+        return UserListManager.jsonify(message)
+
 
     return oped.get()
 

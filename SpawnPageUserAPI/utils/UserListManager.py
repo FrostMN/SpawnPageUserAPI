@@ -56,8 +56,24 @@ class OpedManager(UserListManager):
         self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
+        # self.command.op(user)
+        # return {"error": "False", "message": "need to implement this message."}
+
+        for u in self.user_list:
+            if u['name'].lower() == user.lower():
+                message = "User '{}' is already opped.".format(str(u['name']))
+                return {"error": True, "message": message, "user": u}
         self.command.op(user)
-        return {"error": "False", "message": "need to implement this message."}
+
+        time.sleep(1)
+        new_list = self.load_list(self.path)
+
+        for u in new_list:
+            if u['name'].lower() == user.lower():
+                message = "User '{}' was opped.".format(str(u['name']))
+                return {"error": False, "message": message, "user": u}
+        message = "There was an error opping '{}.'".format(user)
+        return {"error": "True", "message": message}
 
     def remove(self, user: str):
         self.command.deop(user)
@@ -110,6 +126,7 @@ class WhitelistManager(UserListManager):
                 message = "User '{}' was removed from the whitelist.".format(str(u['name']))
                 exists = True
 
+        # This probably need to be improved
         time.sleep(1)
         new_list = self.load_list(self.path)
 
@@ -140,20 +157,14 @@ class BannedPlayerManager(UserListManager):
         self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
-        # self.command.ban(user)
-        # return {"error": "False", "message": "need to implement this message."}
-
-        print(user)
 
         for u in self.user_list:
-            print(u)
             if u['name'].lower() == user.lower():
-                print(u['name'].lower())
-                print(user.lower())
                 message = "User '{}' has already been banned.".format(str(u['name']))
                 return {"error": True, "message": message, "user": u}
         self.command.ban(user)
 
+        # This probably need to be improved
         time.sleep(1)
         new_list = self.load_list(self.path)
 
@@ -165,14 +176,11 @@ class BannedPlayerManager(UserListManager):
         return {"error": True, "message": message}
 
     def remove(self, user: str):
-        # self.command.pardon(user)
-        # return {"error": "False", "message": "need to implement this message."}
 
         exists = False
         message = "User '{}' was not banned.".format(user)
 
         for u in self.user_list:
-            print(u)
             if u['name'].lower() == user.lower():
                 self.command.pardon(user)
                 message = "User '{}' was pardoned.".format(str(u['name']))
@@ -189,7 +197,6 @@ class BannedPlayerManager(UserListManager):
                 return {"error": True, "message": message}
         else:
             return {"error": True, "message": message}
-
 
     def _single_item(self, item: str):
         for u in self.user_list:
