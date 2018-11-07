@@ -149,6 +149,7 @@ class BannedPlayerManager(UserListManager):
             print(u)
             if u['name'].lower() == user.lower():
                 print(u['name'].lower())
+                print(user.lower())
                 message = "User '{}' has already been banned.".format(str(u['name']))
                 return {"error": True, "message": message, "user": u}
         self.command.ban(user)
