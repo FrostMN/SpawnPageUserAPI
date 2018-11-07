@@ -89,7 +89,6 @@ class WhitelistManager(UserListManager):
         self.command.whitelist_add(user)
 
         time.sleep(1)
-
         new_list = self.load_list(self.path)
 
         for u in new_list:
@@ -102,7 +101,7 @@ class WhitelistManager(UserListManager):
     def remove(self, user: str):
 
         exists = False
-        message = "There was an error removing '{}' from the whitelist. (this could be more robust)".format(user)
+        message = "User '{}' was not in whitelist. (this could be more robust)".format(user)
 
         for u in self.user_list:
             print(u)
@@ -111,8 +110,15 @@ class WhitelistManager(UserListManager):
                 message = "User '{}' was removed from the whitelist.".format(str(u['name']))
                 exists = True
 
+        time.sleep(1)
+        new_list = self.load_list(self.path)
+
         if exists:
-            return {"error": "False", "message": message}
+            if len(self.user_list) > len(new_list):
+                return {"error": False, "message": message}
+            else:
+                message = "There was an error removeing '{}' from the whitelist.".format(user)
+                return {"error": True, "message": message}
         else:
             return {"error": True, "message": message}
 
