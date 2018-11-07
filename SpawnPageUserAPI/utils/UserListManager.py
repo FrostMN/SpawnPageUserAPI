@@ -114,7 +114,7 @@ class WhitelistManager(UserListManager):
         if exists:
             return {"error": "False", "message": message}
         else:
-            return {"error": "False", "message": message}
+            return {"error": True, "message": message}
 
     def _single_item(self, item: str):
         for u in self.user_list:
