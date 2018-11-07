@@ -105,7 +105,7 @@ def banned_players():
     # Adds Player in POST to banned-players.json
     if request.method == "POST":
         req = ast.literal_eval(request.data.decode("utf-8"))
-        banned.add(req['address'])
+        banned.add(req['username'])
 
     return banned.get()
 
