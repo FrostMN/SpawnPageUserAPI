@@ -57,11 +57,14 @@ class OppedManager(UserListManager):
 
     def add(self, user: str):
 
+        call_ret = "none"
+
         for u in self.user_list:
             if u['name'].lower() == user.lower():
                 message = "User '{}' is already opped.".format(str(u['name']))
-                return {"error": True, "message": message, "user": u}
-        self.command.op(user)
+                return {"error": True, "message": message, "user": u, "return": call_ret}
+
+        call_ret = self.command.op(user)
 
         # This probably need to be improved
         time.sleep(3)
@@ -70,18 +73,19 @@ class OppedManager(UserListManager):
         for u in new_list:
             if u['name'].lower() == user.lower():
                 message = "User '{}' was opped.".format(str(u['name']))
-                return {"error": False, "message": message, "user": u}
+                return {"error": False, "message": message, "user": u, "return": call_ret}
         message = "There was an error opping '{}.'".format(user)
-        return {"error": "True", "message": message}
+        return {"error": "True", "message": message, "return": call_ret}
 
     def remove(self, user: str):
 
         exists = False
         message = "User '{}' was not opped.".format(user)
+        call_ret = "none"
 
         for u in self.user_list:
             if u['name'].lower() == user.lower():
-                self.command.deop(user)
+                call_ret = self.command.deop(user)
                 message = "User '{}' was deopped.".format(str(u['name']))
                 exists = True
 
@@ -91,12 +95,12 @@ class OppedManager(UserListManager):
 
         if exists:
             if len(self.user_list) > len(new_list):
-                return {"error": False, "message": message}
+                return {"error": False, "message": message, "return": call_ret}
             else:
                 message = "There was an error deopping '{}.'".format(user)
-                return {"error": True, "message": message}
+                return {"error": True, "message": message, "return": call_ret}
         else:
-            return {"error": True, "message": message}
+            return {"error": True, "message": message, "return": call_ret}
 
     def _single_item(self, item: str):
         for u in self.user_list:
@@ -117,11 +121,14 @@ class WhitelistManager(UserListManager):
 
     def add(self, user: str):
 
+        call_ret = "none"
+
         for u in self.user_list:
             if u['name'].lower() == user.lower():
                 message = "User '{}' is already in the whitelist.".format(str(u['name']))
-                return {"error": True, "message": message, "user": u}
-        self.command.whitelist_add(user)
+                return {"error": True, "message": message, "user": u, "return": call_ret}
+
+        call_ret = self.command.whitelist_add(user)
 
         # This probably needs to be improved
         time.sleep(3)
@@ -130,18 +137,19 @@ class WhitelistManager(UserListManager):
         for u in new_list:
             if u['name'].lower() == user.lower():
                 message = "User '{}' was added to the whitelist.".format(str(u['name']))
-                return {"error": False, "message": message, "user": u}
+                return {"error": False, "message": message, "user": u, "return": call_ret}
         message = "There was an error adding '{}' to the whitelist.".format(user)
-        return {"error": "True", "message": message}
+        return {"error": "True", "message": message, "return": call_ret}
 
     def remove(self, user: str):
 
         exists = False
         message = "User '{}' was not in whitelist.".format(user)
+        call_ret = "none"
 
         for u in self.user_list:
             if u['name'].lower() == user.lower():
-                self.command.whitelist_remove(user)
+                call_ret = self.command.whitelist_remove(user)
                 message = "User '{}' was removed from the whitelist.".format(str(u['name']))
                 exists = True
 
@@ -151,12 +159,12 @@ class WhitelistManager(UserListManager):
 
         if exists:
             if len(self.user_list) > len(new_list):
-                return {"error": False, "message": message}
+                return {"error": False, "message": message, "return": call_ret}
             else:
                 message = "There was an error removeing '{}' from the whitelist.".format(user)
-                return {"error": True, "message": message}
+                return {"error": True, "message": message, "return": call_ret}
         else:
-            return {"error": True, "message": message}
+            return {"error": True, "message": message, "return": call_ret}
 
     def _single_item(self, item: str):
         for u in self.user_list:
@@ -177,11 +185,14 @@ class BannedPlayerManager(UserListManager):
 
     def add(self, user: str):
 
+        call_ret = "none"
+
         for u in self.user_list:
             if u['name'].lower() == user.lower():
                 message = "User '{}' has already been banned.".format(str(u['name']))
-                return {"error": True, "message": message, "user": u}
-        self.command.ban(user)
+                return {"error": True, "message": message, "user": u, "return": call_ret}
+
+        call_ret = self.command.ban(user)
 
         # This probably needs to be improved
         time.sleep(3)
@@ -190,18 +201,19 @@ class BannedPlayerManager(UserListManager):
         for u in new_list:
             if u['name'].lower() == user.lower():
                 message = "User '{}' was banned.".format(str(u['name']))
-                return {"error": False, "message": message, "user": u}
+                return {"error": False, "message": message, "user": u, "return": call_ret}
         message = "There was an error baning '{}'.".format(user)
-        return {"error": True, "message": message}
+        return {"error": True, "message": message, "return": call_ret}
 
     def remove(self, user: str):
 
         exists = False
         message = "User '{}' was not banned.".format(user)
+        call_ret = "none"
 
         for u in self.user_list:
             if u['name'].lower() == user.lower():
-                self.command.pardon(user)
+                call_ret = self.command.pardon(user)
                 message = "User '{}' was pardoned.".format(str(u['name']))
                 exists = True
 
@@ -211,12 +223,12 @@ class BannedPlayerManager(UserListManager):
 
         if exists:
             if len(self.user_list) > len(new_list):
-                return {"error": False, "message": message}
+                return {"error": False, "message": message, "return": call_ret}
             else:
                 message = "There was an error pardoning '{}.'".format(user)
-                return {"error": True, "message": message}
+                return {"error": True, "message": message, "return": call_ret}
         else:
-            return {"error": True, "message": message}
+            return {"error": True, "message": message, "return": call_ret}
 
     def _single_item(self, item: str):
         for u in self.user_list:

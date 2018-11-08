@@ -7,7 +7,8 @@ class Config(object):
 
     DEBUG = False
     TESTING = False
-    type = "screen"
+    # type = "screen"
+    type = "subprocess"
     session = "forge"
     whitelist = _basedir + '/data/whitelist.json'
     mc_root = "/srv/minecraft"
