@@ -91,35 +91,35 @@ class ScreenManagerSubprocess(CommandManager):
 
     def op(self, user: str):
         op_cmd = "op {}".format(user)
-        return subprocess.call(self.cmd.format(self.session, op_cmd))
+        return subprocess.call(self.cmd.format(self.session, op_cmd), shell=True)
 
     def deop(self, user: str):
         deop_cmd = "deop {}".format(user)
-        return subprocess.call(self.cmd.format(self.session, deop_cmd))
+        return subprocess.call(self.cmd.format(self.session, deop_cmd), shell=True)
 
     def whitelist_add(self, user: str):
         wl_add = "whitelist add {}".format(user)
-        return subprocess.call(self.cmd.format(self.session, wl_add))
+        return subprocess.call(self.cmd.format(self.session, wl_add), shell=True)
 
     def whitelist_remove(self, user: str):
         wl_rem = "whitelist remove {}".format(user)
-        return subprocess.call(self.cmd.format(self.session, wl_rem))
+        return subprocess.call(self.cmd.format(self.session, wl_rem), shell=True)
 
     def ban(self, user: str, reason: str="Banned by an operator."):
         ban_cmd = "ban {user} {reason}".format(user=user, reason=reason)
-        return subprocess.call(self.cmd.format(self.session, ban_cmd))
+        return subprocess.call(self.cmd.format(self.session, ban_cmd), shell=True)
 
     def pardon(self, user: str):
         par_cmd = "pardon {}".format(user)
-        return subprocess.call(self.cmd.format(self.session, par_cmd))
+        return subprocess.call(self.cmd.format(self.session, par_cmd), shell=True)
 
     def ban_ip(self, address: str):
         ban_cmd = "ban-ip {}".format(address)
-        return subprocess.call(self.cmd.format(self.session, ban_cmd))
+        return subprocess.call(self.cmd.format(self.session, ban_cmd), shell=True)
 
     def pardon_ip(self, address: str):
         par_cmd = "pardon-ip {}".format(address)
-        return subprocess.call(self.cmd.format(self.session, par_cmd))
+        return subprocess.call(self.cmd.format(self.session, par_cmd), shell=True)
 
 
 # TODO: Actullay make this work it is all placeholders currently
