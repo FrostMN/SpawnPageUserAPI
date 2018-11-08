@@ -111,7 +111,7 @@ class ScreenManagerSubprocess(CommandManager):
 
     def pardon(self, user: str):
         par_cmd = "pardon {}".format(user)
-        return subprocess.call(self.cmd.format(self.session, par_cmd), shell=True)
+        return subprocess.check_output(self.cmd.format(self.session, par_cmd))
 
     def ban_ip(self, address: str):
         ban_cmd = "ban-ip {}".format(address)
