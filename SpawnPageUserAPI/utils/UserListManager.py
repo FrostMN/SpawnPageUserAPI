@@ -81,7 +81,7 @@ class OppedManager(UserListManager):
 
         for u in self.user_list:
             if u['name'].lower() == user.lower():
-                self.command.deop(user)
+                tst = self.command.deop(user)
                 message = "User '{}' was deopped.".format(str(u['name']))
                 exists = True
 
@@ -94,7 +94,7 @@ class OppedManager(UserListManager):
                 return {"error": False, "message": message}
             else:
                 message = "There was an error deopping '{}.'".format(user)
-                return {"error": True, "message": message}
+                return {"error": True, "message": tst}
         else:
             return {"error": True, "message": message}
 
