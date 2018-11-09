@@ -111,7 +111,7 @@ class ScreenManagerSubprocess(CommandManager):
 
     def pardon(self, user: str):
         par_cmd = "pardon {}".format(user)
-        return subprocess.check_output(self.cmd.format(self.session, par_cmd))
+        return subprocess.call(self.cmd.format(self.session, par_cmd), shell=True)
 
     def ban_ip(self, address: str):
         ban_cmd = "ban-ip {}".format(address)
@@ -167,13 +167,45 @@ class SystemdManager(CommandManager):
         os.system(self.cmd.format(self.session, par_cmd))
 
 
-def CommandManagerFactory(config: Config) -> CommandManager:
+class CommandIF(object):
+
+    def __init__(self, config: Config, command: CommandManager, list_type: str):
+        self.config = config
+        self.command = command
+
+        if list_type == "op":
+            self.add = self.command.op
+            self.remove = self.command.deop
+        if list_type == "wl":
+            self.add = self.command.whitelist_add
+            self.remove = self.command.whitelist_remove
+        if list_type == "ban":
+            self.add = self.command.ban
+            self.remove = self.command.pardon
+        if list_type == "ip":
+            self.add = self.command.ban_ip
+            self.remove = self.command.pardon_ip
+
+        self.add = command.ban
+
+    def add(self, item: str):
+        self.add(item)
+
+    def remove(self, item:str):
+        self.remove(item)
+
+
+# TODO: Change list_type to enumeration
+def CommandManagerFactory(config: Config, list_type: str) -> CommandIF:
 
     if config.type == "screen":
-        return ScreenManager(config)
+        manager = ScreenManager(config)
+        return CommandIF(config, manager, list_type)
 
     if config.type == "subprocess":
-        return ScreenManagerSubprocess(config)
+        manager = ScreenManagerSubprocess(config)
+        return CommandIF(config, manager, list_type)
 
     if config.type == "systemd":
-        return ScreenManager(config)
+        manager = ScreenManager(config)
+        return CommandIF(config, manager, list_type)
