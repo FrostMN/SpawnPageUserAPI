@@ -49,26 +49,32 @@ class ScreenManager(CommandManager):
         self.session = conf.session
 
     def op(self, user: str):
+        print("op")
         op_cmd = "op {}".format(user)
         os.system(self.cmd.format(self.session, op_cmd))
 
     def deop(self, user: str):
+        print("deop")
         deop_cmd = "deop {}".format(user)
         os.system(self.cmd.format(self.session, deop_cmd))
 
     def whitelist_add(self, user: str):
+        print("wla")
         wl_add = "whitelist add {}".format(user)
         os.system(self.cmd.format(self.session, wl_add))
 
     def whitelist_remove(self, user: str):
+        print("wlr")
         wl_rem = "whitelist remove {}".format(user)
         os.system(self.cmd.format(self.session, wl_rem))
 
     def ban(self, user: str, reason: str="Banned by an operator."):
+        print("b")
         ban_cmd = "ban {user} {reason}".format(user=user, reason=reason)
         os.system(self.cmd.format(self.session, ban_cmd))
 
     def pardon(self, user: str):
+        print("p")
         par_cmd = "pardon {}".format(user)
         os.system(self.cmd.format(self.session, par_cmd))
 
