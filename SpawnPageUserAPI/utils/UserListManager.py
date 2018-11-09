@@ -51,7 +51,7 @@ class UserListManager(ABC):
 class OppedManager(UserListManager):
 
     def __init__(self, config: Config):
-        self.command = CommandManagerFactory(config, "op")
+        self.command = CommandManagerFactory(config, list_type="op")
         self.path = os.path.join(config.mc_root, "ops.json")
         self.user_list = self.load_list(self.path)
 
@@ -111,7 +111,7 @@ class OppedManager(UserListManager):
 class WhitelistManager(UserListManager):
 
     def __init__(self, config: Config):
-        self.command = CommandManagerFactory(config, "wl")
+        self.command = CommandManagerFactory(config, list_type="wl")
         self.path = os.path.join(config.mc_root, "whitelist.json")
         self.user_list = self.load_list(self.path)
 
@@ -171,7 +171,7 @@ class WhitelistManager(UserListManager):
 class BannedPlayerManager(UserListManager):
 
     def __init__(self, config: Config):
-        self.command = CommandManagerFactory(config, "ban")
+        self.command = CommandManagerFactory(config, list_type="ban")
         self.path = os.path.join(config.mc_root, "banned-players.json")
         self.user_list = self.load_list(self.path)
 
@@ -231,7 +231,7 @@ class BannedPlayerManager(UserListManager):
 class BannedIPManager(UserListManager):
 
     def __init__(self, config: Config):
-        self.command = CommandManagerFactory(config, "ip")
+        self.command = CommandManagerFactory(config, list_type="ip")
         self.path = os.path.join(config.mc_root, "banned-ips.json")
         self.user_list = self.load_list(self.path)
 
