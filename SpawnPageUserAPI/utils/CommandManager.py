@@ -69,12 +69,12 @@ class ScreenManager(CommandManager):
         os.system(self.cmd.format(self.session, wl_rem))
 
     def ban(self, user: str, reason: str="Banned by an operator."):
-        print("b")
+        print("ban")
         ban_cmd = "ban {user} {reason}".format(user=user, reason=reason)
         os.system(self.cmd.format(self.session, ban_cmd))
 
     def pardon(self, user: str):
-        print("p")
+        print("pardon")
         par_cmd = "pardon {}".format(user)
         os.system(self.cmd.format(self.session, par_cmd))
 
