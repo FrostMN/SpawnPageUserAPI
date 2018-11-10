@@ -204,9 +204,9 @@ class BannedPlayerManager(UserListManager):
     add_success = "User '{}' was banned."
     add_failure = "There was an error baning '{}'."
     add_exists = "User '{}' has already been banned."
-    rem_success = "{}"
-    rem_failure = "{}"
-    rem_missing = "{}"
+    rem_success = "User '{}' was pardoned"
+    rem_failure = "There was an error banning '{}'"
+    rem_missing = "User '{}' was not in the banned list"
 
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config, UserListType.Banned)
