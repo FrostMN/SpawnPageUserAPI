@@ -23,9 +23,9 @@ class UserListManager(ABC):
     rem_failure = "{}"
     rem_missing = "{}"
 
-    @abstractmethod
-    def add(self, user: str):
-        pass
+    # @abstractmethod
+    # def add(self, user: str):
+    #     pass
 
     def new_add(self, item: str):
 
@@ -40,6 +40,10 @@ class UserListManager(ABC):
 
     @abstractmethod
     def remove(self, user: str):
+        pass
+
+    @abstractmethod
+    def new_remove(self, user: str):
         pass
 
     def get(self, item: str=None):
@@ -98,24 +102,24 @@ class OppedManager(UserListManager):
         self.path = os.path.join(config.mc_root, "ops.json")
         self.user_list = self.load_list(self.path)
 
-    def add(self, user: str):
-
-        for u in self.user_list:
-            if u['name'].lower() == user.lower():
-                message = "User '{}' is already opped.".format(str(u['name']))
-                return {"error": True, "message": message, "user": u}
-        self.command.add(user)
-
-        # This probably need to be improved
-        time.sleep(3)
-        new_list = self.load_list(self.path)
-
-        for u in new_list:
-            if u['name'].lower() == user.lower():
-                message = "User '{}' was opped.".format(str(u['name']))
-                return {"error": False, "message": message, "user": u}
-        message = "There was an error opping '{}.'".format(user)
-        return {"error": "True", "message": message}
+    # def add(self, user: str):
+    #
+    #     for u in self.user_list:
+    #         if u['name'].lower() == user.lower():
+    #             message = "User '{}' is already opped.".format(str(u['name']))
+    #             return {"error": True, "message": message, "user": u}
+    #     self.command.add(user)
+    #
+    #     # This probably need to be improved
+    #     time.sleep(3)
+    #     new_list = self.load_list(self.path)
+    #
+    #     for u in new_list:
+    #         if u['name'].lower() == user.lower():
+    #             message = "User '{}' was opped.".format(str(u['name']))
+    #             return {"error": False, "message": message, "user": u}
+    #     message = "There was an error opping '{}.'".format(user)
+    #     return {"error": "True", "message": message}
 
     def remove(self, user: str):
 
@@ -155,29 +159,36 @@ class OppedManager(UserListManager):
 
 class WhitelistManager(UserListManager):
 
+    add_success = "User '{}' was added to the whitelist."
+    add_failure = "There was an error adding '{}' to the whitelist."
+    add_exists = "User '{}' is already in the whitelist."
+    rem_success = "{}"
+    rem_failure = "{}"
+    rem_missing = "{}"
+
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config, UserListType.Whitelisted)
         self.path = os.path.join(config.mc_root, "whitelist.json")
         self.user_list = self.load_list(self.path)
 
-    def add(self, user: str):
-
-        for u in self.user_list:
-            if u['name'].lower() == user.lower():
-                message = "User '{}' is already in the whitelist.".format(str(u['name']))
-                return {"error": True, "message": message, "user": u}
-        self.command.add(user)
-
-        # This probably needs to be improved
-        time.sleep(3)
-        new_list = self.load_list(self.path)
-
-        for u in new_list:
-            if u['name'].lower() == user.lower():
-                message = "User '{}' was added to the whitelist.".format(str(u['name']))
-                return {"error": False, "message": message, "user": u}
-        message = "There was an error adding '{}' to the whitelist.".format(user)
-        return {"error": "True", "message": message}
+    # def add(self, user: str):
+    #
+    #     for u in self.user_list:
+    #         if u['name'].lower() == user.lower():
+    #             message = "User '{}' is already in the whitelist.".format(str(u['name']))
+    #             return {"error": True, "message": message, "user": u}
+    #     self.command.add(user)
+    #
+    #     # This probably needs to be improved
+    #     time.sleep(3)
+    #     new_list = self.load_list(self.path)
+    #
+    #     for u in new_list:
+    #         if u['name'].lower() == user.lower():
+    #             message = "User '{}' was added to the whitelist.".format(str(u['name']))
+    #             return {"error": False, "message": message, "user": u}
+    #     message = "There was an error adding '{}' to the whitelist.".format(user)
+    #     return {"error": "True", "message": message}
 
     def remove(self, user: str):
 
@@ -215,29 +226,36 @@ class WhitelistManager(UserListManager):
 
 class BannedPlayerManager(UserListManager):
 
+    add_success = "User '{}' was banned."
+    add_failure = "There was an error baning '{}'."
+    add_exists = "User '{}' has already been banned."
+    rem_success = "{}"
+    rem_failure = "{}"
+    rem_missing = "{}"
+
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config, UserListType.Banned)
         self.path = os.path.join(config.mc_root, "banned-players.json")
         self.user_list = self.load_list(self.path)
 
-    def add(self, user: str):
-
-        for u in self.user_list:
-            if u['name'].lower() == user.lower():
-                message = "User '{}' has already been banned.".format(str(u['name']))
-                return {"error": True, "message": message, "user": u}
-        self.command.add(user)
-
-        # This probably needs to be improved
-        time.sleep(3)
-        new_list = self.load_list(self.path)
-
-        for u in new_list:
-            if u['name'].lower() == user.lower():
-                message = "User '{}' was banned.".format(str(u['name']))
-                return {"error": False, "message": message, "user": u}
-        message = "There was an error baning '{}'.".format(user)
-        return {"error": True, "message": message}
+    # def add(self, user: str):
+    #
+    #     for u in self.user_list:
+    #         if u['name'].lower() == user.lower():
+    #             message = "User '{}' has already been banned.".format(str(u['name']))
+    #             return {"error": True, "message": message, "user": u}
+    #     self.command.add(user)
+    #
+    #     # This probably needs to be improved
+    #     time.sleep(3)
+    #     new_list = self.load_list(self.path)
+    #
+    #     for u in new_list:
+    #         if u['name'].lower() == user.lower():
+    #             message = "User '{}' was banned.".format(str(u['name']))
+    #             return {"error": False, "message": message, "user": u}
+    #     message = "There was an error baning '{}'.".format(user)
+    #     return {"error": True, "message": message}
 
     def remove(self, user: str):
 
@@ -281,12 +299,10 @@ class BannedIPManager(UserListManager):
         self.user_list = self.load_list(self.path)
 
     def add(self, user: str):
-        self.command.add(user)
-        return {"error": "False", "message": "need to implement this message."}
+        return {"error": "False", "message": "need to implement this."}
 
     def remove(self, user: str):
-        self.command.remove(user)
-        return {"error": "False", "message": "need to implement this message."}
+        return {"error": "False", "message": "need to implement this."}
 
     def _single_item(self, item: str):
         for u in self.user_list:
