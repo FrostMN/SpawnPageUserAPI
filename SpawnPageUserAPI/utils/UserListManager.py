@@ -53,9 +53,9 @@ class UserListManager(ABC):
         pass
 
     def _test_exists(self, item: str):
-        for item in self.user_list:
+        for i in self.user_list:
             print(item)
-            if item['name'].lower() == item.lower():
+            if i['name'].lower() == item.lower():
                 return True
         return False
 
