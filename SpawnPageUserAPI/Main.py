@@ -58,7 +58,7 @@ def whitelist_user(uuid: str):
     # Removes Player in DELETE from whitelist.json
     if request.method == "DELETE":
 
-        message = whitelist.remove(player)
+        message = whitelist.new_remove(player)
 
         return UserListManager.jsonify(message)
 
@@ -93,7 +93,7 @@ def admin_user(uuid: str):
     # Removes Player in DELETE from ops.json
     if request.method == "DELETE":
 
-        message = opped.remove(player)
+        message = opped.new_remove(player)
 
         return UserListManager.jsonify(message)
 
@@ -126,7 +126,7 @@ def banned_player(uuid: str):
     # removes Player in DELETE from banned-players.json
     if request.method == "DELETE":
 
-        message = banned.remove(player)
+        message = banned.new_remove(player)
 
         return UserListManager.jsonify(message)
 
