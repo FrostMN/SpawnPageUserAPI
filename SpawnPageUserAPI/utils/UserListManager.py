@@ -86,6 +86,13 @@ class UserListManager(ABC):
 
 class OppedManager(UserListManager):
 
+    add_success = "User '{}' was opped."
+    add_failure = "There was an error opping '{}.'"
+    add_exists = "User '{}' is already opped."
+    rem_success = "{}"
+    rem_failure = "{}"
+    rem_missing = "{}"
+
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config, UserListType.Opped)
         self.path = os.path.join(config.mc_root, "ops.json")
