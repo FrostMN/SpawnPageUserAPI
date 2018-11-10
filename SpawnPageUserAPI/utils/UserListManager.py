@@ -72,10 +72,10 @@ class UserListManager(ABC):
         return True
 
     def _add(self, item: str):
-        return self.command.add(user=item, cb=self._test_add())
+        return self.command.add(user=item, cb=self._test_add)
 
     def _remove(self, item: str):
-        return self.command.remove(user=item, cb=self._test_remove())
+        return self.command.remove(user=item, cb=self._test_remove)
 
 
     @staticmethod
