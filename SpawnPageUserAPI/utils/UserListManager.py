@@ -14,13 +14,14 @@ from config import Config
 class UserListManager(ABC):
 
     user_list = list()
+    command = CommandManager
 
-    add_success = ""
-    add_failure = ""
-    add_missing = ""
-    rem_success = ""
-    rem_failure = ""
-    rem_missing = ""
+    add_success = "{}"
+    add_failure = "{}"
+    add_exists = "{}"
+    rem_success = "{}"
+    rem_failure = "{}"
+    rem_missing = "{}"
 
     @abstractmethod
     def add(self, user: str):
@@ -28,8 +29,14 @@ class UserListManager(ABC):
 
     def new_add(self, item: str):
 
-        self._test_exists(item)
-        pass
+        if not self._test_exists(item):
+
+            if self._add(item):
+                return {"error": False, "message": self.add_success.format(item)}
+            else:
+                return {"error": True, "message": self.add_failure.format(item)}
+        else:
+            return {"error": True, "message": self.add_exists.format(item)}
 
     @abstractmethod
     def remove(self, user: str):
@@ -46,7 +53,10 @@ class UserListManager(ABC):
         pass
 
     def _test_exists(self, item: str):
-        pass
+        for item in self.user_list:
+            if item['name'].lower() == item.lower():
+                return True
+        return False
 
     def _test_add(self, item: str) -> bool:
 
@@ -56,6 +66,9 @@ class UserListManager(ABC):
             if u['name'].lower() == item.lower():
                 return True
         return False
+
+    def _add(self, item: str):
+        return self.command.add(user=item, cb=self._test_add(item))
 
     @staticmethod
     def jsonify(data, status: int=200, indent: int = 4, sort_keys: bool=True):
