@@ -42,7 +42,6 @@ class UserListManager(ABC):
     def remove(self, user: str):
         pass
 
-    @abstractmethod
     def new_remove(self, user: str):
         pass
 
