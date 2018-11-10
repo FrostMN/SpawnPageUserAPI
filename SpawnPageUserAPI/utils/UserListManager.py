@@ -23,10 +23,6 @@ class UserListManager(ABC):
     rem_failure = "{}"
     rem_missing = "{}"
 
-    # @abstractmethod
-    # def add(self, user: str):
-    #     pass
-
     def new_add(self, item: str):
 
         if not self._test_exists(item):
@@ -42,8 +38,18 @@ class UserListManager(ABC):
     def remove(self, user: str):
         pass
 
-    def new_remove(self, user: str):
-        pass
+    def new_remove(self, item: str):
+
+        # exists = False
+
+        if self._test_exists(item):
+
+            if self._remove(item):
+                pass
+            else:
+                pass
+        else:
+            return {"error": True, "message": self.rem_missing.format(item)}
 
     def get(self, item: str=None):
         if item:
@@ -71,8 +77,16 @@ class UserListManager(ABC):
                 return True
         return False
 
+    # TODO: implement
+    def _test_remove(self, item: str) -> bool:
+        return True
+
     def _add(self, item: str):
         return self.command.add(user=item, cb=self._test_add(item))
+
+    def _remove(self, item: str):
+        return self.command.remove(user=item, cb=self._test_remove(item))
+
 
     @staticmethod
     def jsonify(data, status: int=200, indent: int = 4, sort_keys: bool=True):
@@ -100,25 +114,6 @@ class OppedManager(UserListManager):
         self.command = CommandManagerFactory(config, UserListType.Opped)
         self.path = os.path.join(config.mc_root, "ops.json")
         self.user_list = self.load_list(self.path)
-
-    # def add(self, user: str):
-    #
-    #     for u in self.user_list:
-    #         if u['name'].lower() == user.lower():
-    #             message = "User '{}' is already opped.".format(str(u['name']))
-    #             return {"error": True, "message": message, "user": u}
-    #     self.command.add(user)
-    #
-    #     # This probably need to be improved
-    #     time.sleep(3)
-    #     new_list = self.load_list(self.path)
-    #
-    #     for u in new_list:
-    #         if u['name'].lower() == user.lower():
-    #             message = "User '{}' was opped.".format(str(u['name']))
-    #             return {"error": False, "message": message, "user": u}
-    #     message = "There was an error opping '{}.'".format(user)
-    #     return {"error": "True", "message": message}
 
     def remove(self, user: str):
 
@@ -170,25 +165,6 @@ class WhitelistManager(UserListManager):
         self.path = os.path.join(config.mc_root, "whitelist.json")
         self.user_list = self.load_list(self.path)
 
-    # def add(self, user: str):
-    #
-    #     for u in self.user_list:
-    #         if u['name'].lower() == user.lower():
-    #             message = "User '{}' is already in the whitelist.".format(str(u['name']))
-    #             return {"error": True, "message": message, "user": u}
-    #     self.command.add(user)
-    #
-    #     # This probably needs to be improved
-    #     time.sleep(3)
-    #     new_list = self.load_list(self.path)
-    #
-    #     for u in new_list:
-    #         if u['name'].lower() == user.lower():
-    #             message = "User '{}' was added to the whitelist.".format(str(u['name']))
-    #             return {"error": False, "message": message, "user": u}
-    #     message = "There was an error adding '{}' to the whitelist.".format(user)
-    #     return {"error": "True", "message": message}
-
     def remove(self, user: str):
 
         exists = False
@@ -236,25 +212,6 @@ class BannedPlayerManager(UserListManager):
         self.command = CommandManagerFactory(config, UserListType.Banned)
         self.path = os.path.join(config.mc_root, "banned-players.json")
         self.user_list = self.load_list(self.path)
-
-    # def add(self, user: str):
-    #
-    #     for u in self.user_list:
-    #         if u['name'].lower() == user.lower():
-    #             message = "User '{}' has already been banned.".format(str(u['name']))
-    #             return {"error": True, "message": message, "user": u}
-    #     self.command.add(user)
-    #
-    #     # This probably needs to be improved
-    #     time.sleep(3)
-    #     new_list = self.load_list(self.path)
-    #
-    #     for u in new_list:
-    #         if u['name'].lower() == user.lower():
-    #             message = "User '{}' was banned.".format(str(u['name']))
-    #             return {"error": False, "message": message, "user": u}
-    #     message = "There was an error baning '{}'.".format(user)
-    #     return {"error": True, "message": message}
 
     def remove(self, user: str):
 
