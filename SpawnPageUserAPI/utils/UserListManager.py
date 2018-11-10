@@ -34,9 +34,9 @@ class UserListManager(ABC):
         else:
             return {"error": True, "message": self.add_exists.format(item)}
 
-    @abstractmethod
-    def remove(self, user: str):
-        pass
+    # @abstractmethod
+    # def remove(self, user: str):
+    #     pass
 
     def new_remove(self, item: str):
 
@@ -118,31 +118,31 @@ class OppedManager(UserListManager):
         self.path = os.path.join(config.mc_root, "ops.json")
         self.user_list = self.load_list(self.path)
 
-    def remove(self, user: str):
-
-        exists = False
-
-        sucess_message = "User '{}' was deopped.".format(user)
-        fail_message = "There was an error deopping '{}.'".format(user)
-        not_in_list_message = "User '{}' was not opped.".format(user)
-
-        for u in self.user_list:
-            if u['name'].lower() == user.lower():
-                self.command.remove(user)
-                exists = True
-
-        # This probably need to be improved
-        time.sleep(3)
-        new_list = self.load_list(self.path)
-
-        if exists:
-            if len(self.user_list) > len(new_list):
-                return {"error": False, "message": sucess_message}
-            else:
-                message = "There was an error deopping '{}.'".format(user)
-                return {"error": True, "message": fail_message}
-        else:
-            return {"error": True, "message": not_in_list_message}
+    # def remove(self, user: str):
+    #
+    #     exists = False
+    #
+    #     sucess_message = "User '{}' was deopped.".format(user)
+    #     fail_message = "There was an error deopping '{}.'".format(user)
+    #     not_in_list_message = "User '{}' was not opped.".format(user)
+    #
+    #     for u in self.user_list:
+    #         if u['name'].lower() == user.lower():
+    #             self.command.remove(user)
+    #             exists = True
+    #
+    #     # This probably need to be improved
+    #     time.sleep(3)
+    #     new_list = self.load_list(self.path)
+    #
+    #     if exists:
+    #         if len(self.user_list) > len(new_list):
+    #             return {"error": False, "message": sucess_message}
+    #         else:
+    #             message = "There was an error deopping '{}.'".format(user)
+    #             return {"error": True, "message": fail_message}
+    #     else:
+    #         return {"error": True, "message": not_in_list_message}
 
     def _single_item(self, item: str):
         for u in self.user_list:
@@ -168,29 +168,29 @@ class WhitelistManager(UserListManager):
         self.path = os.path.join(config.mc_root, "whitelist.json")
         self.user_list = self.load_list(self.path)
 
-    def remove(self, user: str):
-
-        exists = False
-        message = "User '{}' was not in whitelist.".format(user)
-
-        for u in self.user_list:
-            if u['name'].lower() == user.lower():
-                self.command.remove(user)
-                message = "User '{}' was removed from the whitelist.".format(str(u['name']))
-                exists = True
-
-        # This probably needs to be improved
-        time.sleep(3)
-        new_list = self.load_list(self.path)
-
-        if exists:
-            if len(self.user_list) > len(new_list):
-                return {"error": False, "message": message}
-            else:
-                message = "There was an error removeing '{}' from the whitelist.".format(user)
-                return {"error": True, "message": message}
-        else:
-            return {"error": True, "message": message}
+    # def remove(self, user: str):
+    #
+    #     exists = False
+    #     message = "User '{}' was not in whitelist.".format(user)
+    #
+    #     for u in self.user_list:
+    #         if u['name'].lower() == user.lower():
+    #             self.command.remove(user)
+    #             message = "User '{}' was removed from the whitelist.".format(str(u['name']))
+    #             exists = True
+    #
+    #     # This probably needs to be improved
+    #     time.sleep(3)
+    #     new_list = self.load_list(self.path)
+    #
+    #     if exists:
+    #         if len(self.user_list) > len(new_list):
+    #             return {"error": False, "message": message}
+    #         else:
+    #             message = "There was an error removeing '{}' from the whitelist.".format(user)
+    #             return {"error": True, "message": message}
+    #     else:
+    #         return {"error": True, "message": message}
 
     def _single_item(self, item: str):
         for u in self.user_list:
@@ -216,29 +216,29 @@ class BannedPlayerManager(UserListManager):
         self.path = os.path.join(config.mc_root, "banned-players.json")
         self.user_list = self.load_list(self.path)
 
-    def remove(self, user: str):
-
-        exists = False
-        message = "User '{}' was not banned.".format(user)
-
-        for u in self.user_list:
-            if u['name'].lower() == user.lower():
-                self.command.remove(user)
-                message = "User '{}' was pardoned.".format(str(u['name']))
-                exists = True
-
-        # This probably needs to be improved
-        time.sleep(3)
-        new_list = self.load_list(self.path)
-
-        if exists:
-            if len(self.user_list) > len(new_list):
-                return {"error": False, "message": message}
-            else:
-                message = "There was an error pardoning '{}.'".format(user)
-                return {"error": True, "message": message}
-        else:
-            return {"error": True, "message": message}
+    # def remove(self, user: str):
+    #
+    #     exists = False
+    #     message = "User '{}' was not banned.".format(user)
+    #
+    #     for u in self.user_list:
+    #         if u['name'].lower() == user.lower():
+    #             self.command.remove(user)
+    #             message = "User '{}' was pardoned.".format(str(u['name']))
+    #             exists = True
+    #
+    #     # This probably needs to be improved
+    #     time.sleep(3)
+    #     new_list = self.load_list(self.path)
+    #
+    #     if exists:
+    #         if len(self.user_list) > len(new_list):
+    #             return {"error": False, "message": message}
+    #         else:
+    #             message = "There was an error pardoning '{}.'".format(user)
+    #             return {"error": True, "message": message}
+    #     else:
+    #         return {"error": True, "message": message}
 
     def _single_item(self, item: str):
         for u in self.user_list:
