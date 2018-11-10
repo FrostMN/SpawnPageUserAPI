@@ -6,7 +6,7 @@ from flask import make_response, request
 from config import Config as conf
 from typing import Union
 from abc import ABC, abstractmethod
-from SpawnPageUserAPI.utils.CommandManager import CommandManager, CommandManagerFactory, CommandIF
+from SpawnPageUserAPI.utils.CommandManager import CommandManager, CommandManagerFactory
 from SpawnPageUserAPI.enums.UserListType import UserListType
 from config import Config
 

@@ -3,7 +3,6 @@ from abc import abstractmethod
 from SpawnPageUserAPI.enums.UserListType import UserListType
 from config import Config
 import os
-import subprocess
 
 
 class CommandManager(ABC):
@@ -84,129 +83,43 @@ class ScreenBannedIPManager(ScreenManager):
         os.system(self.cmd.format(self.session, par_cmd))
 
 
-# class ScreenManagerSubprocess(CommandManager):
+# class CommandIF(object):
 #
-#     session = ""
-#     cmd = "screen -S {} -X stuff \"{}^M\""
+#     def __init__(self, config: Config, command: CommandManager, list_type: str):
+#         self.config = config
+#         self.command = command
 #
-#     def __init__(self, conf: Config):
-#         self.session = conf.session
+#         print("list_type")
+#         print(list_type)
 #
-#     def op(self, user: str):
-#         op_cmd = "op {}".format(user)
-#         return subprocess.call(self.cmd.format(self.session, op_cmd), shell=True)
+#         if list_type == "op":
+#             print("CIF op")
+#             self.add = self.command.op
+#             self.remove = self.command.deop
+#         if list_type == "wl":
+#             print("CIF wl")
+#             self.add = self.command.whitelist_add
+#             self.remove = self.command.whitelist_remove
+#         if list_type == "ban":
+#             print("CIF ban")
+#             self.add = self.command.ban
+#             self.remove = self.command.pardon
+#         if list_type == "ip":
+#             print("CIF ip")
+#             self.add = self.command.ban_ip
+#             self.remove = self.command.pardon_ip
 #
-#     def deop(self, user: str):
-#         deop_cmd = "deop {}".format(user)
-#         return subprocess.call(self.cmd.format(self.session, deop_cmd), shell=True)
+#         self.add = command.ban
 #
-#     def whitelist_add(self, user: str):
-#         wl_add = "whitelist add {}".format(user)
-#         return subprocess.call(self.cmd.format(self.session, wl_add), shell=True)
+#     def add(self, item: str):
+#         self.add(item)
 #
-#     def whitelist_remove(self, user: str):
-#         wl_rem = "whitelist remove {}".format(user)
-#         return subprocess.call(self.cmd.format(self.session, wl_rem), shell=True)
+#     def remove(self, item:str):
+#         self.remove(item)
 #
-#     def ban(self, user: str, reason: str="Banned by an operator."):
-#         ban_cmd = "ban {user} {reason}".format(user=user, reason=reason)
-#         return subprocess.call(self.cmd.format(self.session, ban_cmd), shell=True)
 #
-#     def pardon(self, user: str):
-#         par_cmd = "pardon {}".format(user)
-#         return subprocess.call(self.cmd.format(self.session, par_cmd), shell=True)
-#
-#     def ban_ip(self, address: str):
-#         ban_cmd = "ban-ip {}".format(address)
-#         return subprocess.call(self.cmd.format(self.session, ban_cmd), shell=True)
-#
-#     def pardon_ip(self, address: str):
-#         par_cmd = "pardon-ip {}".format(address)
-#         return subprocess.call(self.cmd.format(self.session, par_cmd), shell=True)
-
-
-# # TODO: Actullay make this work it is all placeholders currently
-# class SystemdManager(CommandManager):
-#
-#     session = ""
-#     cmd = "{}"
-#
-#     def __init__(self, conf: Config):
-#         self.session = conf.session
-#
-#     def op(self, user: str):
-#         op_cmd = "op {}".format(user)
-#         os.system(self.cmd.format(self.session, op_cmd))
-#
-#     def deop(self, user: str):
-#         deop_cmd = "deop {}".format(user)
-#
-#         print(deop_cmd)
-#
-#         os.system(self.cmd.format(self.session, deop_cmd))
-#
-#     def whitelist_add(self, user: str):
-#         wl_add = "whitelist add {}".format(user)
-#         os.system(self.cmd.format(self.session, wl_add))
-#
-#     def whitelist_remove(self, user: str):
-#         wl_rem = "whitelist remove {}".format(user)
-#         os.system(self.cmd.format(self.session, wl_rem))
-#
-#     def ban(self, user: str):
-#         ban_cmd = "ban {}".format(user)
-#         os.system(self.cmd.format(self.session, ban_cmd))
-#
-#     def pardon(self, user: str):
-#         par_cmd = "pardon {}".format(user)
-#         os.system(self.cmd.format(self.session, par_cmd))
-#
-#     def ban_ip(self, address: str):
-#         ban_cmd = "ban-ip {}".format(address)
-#         os.system(self.cmd.format(self.session, ban_cmd))
-#
-#     def pardon_ip(self, address: str):
-#         par_cmd = "pardon-ip {}".format(address)
-#         os.system(self.cmd.format(self.session, par_cmd))
-
-
-class CommandIF(object):
-
-    def __init__(self, config: Config, command: CommandManager, list_type: str):
-        self.config = config
-        self.command = command
-
-        print("list_type")
-        print(list_type)
-
-        if list_type == "op":
-            print("CIF op")
-            self.add = self.command.op
-            self.remove = self.command.deop
-        if list_type == "wl":
-            print("CIF wl")
-            self.add = self.command.whitelist_add
-            self.remove = self.command.whitelist_remove
-        if list_type == "ban":
-            print("CIF ban")
-            self.add = self.command.ban
-            self.remove = self.command.pardon
-        if list_type == "ip":
-            print("CIF ip")
-            self.add = self.command.ban_ip
-            self.remove = self.command.pardon_ip
-
-        self.add = command.ban
-
-    def add(self, item: str):
-        self.add(item)
-
-    def remove(self, item:str):
-        self.remove(item)
-
-
-def ScreenManagerFactory():
-    pass
+# def ScreenManagerFactory():
+#     pass
 
 
 # TODO: Change list_type to enumeration
