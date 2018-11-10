@@ -14,10 +14,21 @@ from config import Config
 class UserListManager(ABC):
 
     user_list = list()
-    # path = ""
+
+    add_success = ""
+    add_failure = ""
+    add_missing = ""
+    rem_success = ""
+    rem_failure = ""
+    rem_missing = ""
 
     @abstractmethod
     def add(self, user: str):
+        pass
+
+    def new_add(self, item: str):
+
+        self._test_exists(item)
         pass
 
     @abstractmethod
@@ -33,6 +44,18 @@ class UserListManager(ABC):
     @abstractmethod
     def _single_item(self, item: str) -> [dict]:
         pass
+
+    def _test_exists(self, item: str):
+        pass
+
+    def _test_add(self, item: str) -> bool:
+
+        new_list = self.load_list(self.path)
+
+        for u in new_list:
+            if u['name'].lower() == item.lower():
+                return True
+        return False
 
     @staticmethod
     def jsonify(data, status: int=200, indent: int = 4, sort_keys: bool=True):
@@ -76,12 +99,14 @@ class OppedManager(UserListManager):
     def remove(self, user: str):
 
         exists = False
-        message = "User '{}' was not opped.".format(user)
+
+        sucess_message = "User '{}' was deopped.".format(user)
+        fail_message = "There was an error deopping '{}.'".format(user)
+        not_in_list_message = "User '{}' was not opped.".format(user)
 
         for u in self.user_list:
             if u['name'].lower() == user.lower():
                 self.command.remove(user)
-                message = "User '{}' was deopped.".format(str(u['name']))
                 exists = True
 
         # This probably need to be improved
@@ -90,12 +115,12 @@ class OppedManager(UserListManager):
 
         if exists:
             if len(self.user_list) > len(new_list):
-                return {"error": False, "message": message}
+                return {"error": False, "message": sucess_message}
             else:
                 message = "There was an error deopping '{}.'".format(user)
-                return {"error": True, "message": message}
+                return {"error": True, "message": fail_message}
         else:
-            return {"error": True, "message": message}
+            return {"error": True, "message": not_in_list_message}
 
     def _single_item(self, item: str):
         for u in self.user_list:
