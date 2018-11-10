@@ -26,14 +26,6 @@ class ScreenManager(CommandManager):
     def __init__(self, conf: Config):
         self.session = conf.session
 
-    # @abstractmethod
-    # def add(self, user: str, cb=None, wait: int=3):
-    #     pass
-    #
-    # @abstractmethod
-    # def remove(self, user: str, cb=None, wait: int=3):
-    #     pass
-
 
 class ScreenAdminManager(ScreenManager):
 
