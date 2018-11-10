@@ -1,6 +1,6 @@
 from abc import ABC
 from abc import abstractmethod
-from SpawnPageUserAPI.utils.UserListManager import UserListType
+from SpawnPageUserAPI.enums.UserListType import UserListType
 from config import Config
 import os
 import subprocess
