@@ -68,14 +68,17 @@ class UserListManager(ABC):
                 return True
         return False
 
+    # TODO: implement
     def _test_add(self, item: str) -> bool:
 
-        new_list = self.load_list(self.path)
+        return True
 
-        for u in new_list:
-            if u['name'].lower() == item.lower():
-                return True
-        return False
+        # new_list = self.load_list(self.path)
+        #
+        # for u in new_list:
+        #     if u['name'].lower() == item.lower():
+        #         return True
+        # return False
 
     # TODO: implement
     def _test_remove(self, item: str) -> bool:
