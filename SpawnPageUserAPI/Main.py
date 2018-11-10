@@ -39,7 +39,7 @@ def whitelist_users():
 
         req = ast.literal_eval(request.data.decode("utf-8"))
 
-        message = whitelist.new_add(req['username'])
+        message = whitelist.add(req['username'])
 
         return UserListManager.jsonify(message)
 
@@ -58,7 +58,7 @@ def whitelist_user(uuid: str):
     # Removes Player in DELETE from whitelist.json
     if request.method == "DELETE":
 
-        message = whitelist.new_remove(player)
+        message = whitelist.remove(player)
 
         return UserListManager.jsonify(message)
 
@@ -74,7 +74,7 @@ def admin_usernames():
     # Adds Player in POST to ops.json
     if request.method == "POST":
         req = ast.literal_eval(request.data.decode("utf-8"))
-        message = opped.new_add(req['username'])
+        message = opped.add(req['username'])
 
         return UserListManager.jsonify(message)
 
@@ -93,7 +93,7 @@ def admin_user(uuid: str):
     # Removes Player in DELETE from ops.json
     if request.method == "DELETE":
 
-        message = opped.new_remove(player)
+        message = opped.remove(player)
 
         return UserListManager.jsonify(message)
 
@@ -108,7 +108,7 @@ def banned_players():
     # Adds Player in POST to banned-players.json
     if request.method == "POST":
         req = ast.literal_eval(request.data.decode("utf-8"))
-        message = banned.new_add(req['username'])
+        message = banned.add(req['username'])
 
         return UserListManager.jsonify(message)
 
@@ -126,7 +126,7 @@ def banned_player(uuid: str):
     # removes Player in DELETE from banned-players.json
     if request.method == "DELETE":
 
-        message = banned.new_remove(player)
+        message = banned.remove(player)
 
         return UserListManager.jsonify(message)
 
