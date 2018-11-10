@@ -105,10 +105,10 @@ class OppedManager(UserListManager):
 
     add_success = "User '{}' was opped."
     add_failure = "There was an error opping '{}.'"
-    add_exists = "User '{}' is already opped."
-    rem_success = "{}"
-    rem_failure = "{}"
-    rem_missing = "{}"
+    add_exists = "User '{}' is already in the opped list."
+    rem_success = "User '{}' was deopped."
+    rem_failure = "There was an error deopping '{}.'"
+    rem_missing = "User '{}' was not in the opped list."
 
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config, UserListType.Opped)
@@ -156,9 +156,9 @@ class WhitelistManager(UserListManager):
     add_success = "User '{}' was added to the whitelist."
     add_failure = "There was an error adding '{}' to the whitelist."
     add_exists = "User '{}' is already in the whitelist."
-    rem_success = "{}"
-    rem_failure = "{}"
-    rem_missing = "{}"
+    rem_success = "User '{}' was removed from the Whitelist."
+    rem_failure = "There was an error adding '{}' to the Whitelist"
+    rem_missing = "User '{}' was not in the Whitelist"
 
     def __init__(self, config: Config):
         self.command = CommandManagerFactory(config, UserListType.Whitelisted)
