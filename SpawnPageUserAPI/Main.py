@@ -39,7 +39,7 @@ def whitelist_users():
 
         req = ast.literal_eval(request.data.decode("utf-8"))
 
-        message = whitelist.add(req['username'])
+        message = whitelist.new_add(req['username'])
 
         return UserListManager.jsonify(message)
 
@@ -108,7 +108,7 @@ def banned_players():
     # Adds Player in POST to banned-players.json
     if request.method == "POST":
         req = ast.literal_eval(request.data.decode("utf-8"))
-        message = banned.add(req['username'])
+        message = banned.new_add(req['username'])
 
         return UserListManager.jsonify(message)
 
