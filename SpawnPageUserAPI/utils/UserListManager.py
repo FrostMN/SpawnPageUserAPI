@@ -45,9 +45,9 @@ class UserListManager(ABC):
         if self._test_exists(item):
 
             if self._remove(item):
-                pass
+                return {"error": False, "message": self.rem_success.format(item)}
             else:
-                pass
+                return {"error": True, "message": self.rem_failure.format(item)}
         else:
             return {"error": True, "message": self.rem_missing.format(item)}
 
