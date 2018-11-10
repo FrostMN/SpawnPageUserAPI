@@ -10,12 +10,34 @@ from SpawnPageUserAPI.utils.CommandManager import CommandManager, CommandManager
 from config import Config
 
 
+class UserListType(object):
+
+    _banned = "banned"
+    _banned_ip = "banned_ip"
+    _opped = "opped"
+    _whitelisted = "whitelisted"
+
+    @property
+    def Banned(self):
+        return self._banned
+
+    @property
+    def BannedIP(self):
+        return self._banned_ip
+
+    @property
+    def Opped(self):
+        return self._opped
+
+    @property
+    def Whitelisted(self):
+        return self._whitelisted
+
+
 class UserListManager(ABC):
 
-    # command: CommandManager
     user_list = list()
-
-    path = ""
+    # path = ""
 
     @abstractmethod
     def add(self, user: str):
@@ -51,7 +73,7 @@ class UserListManager(ABC):
 class OppedManager(UserListManager):
 
     def __init__(self, config: Config):
-        self.command = CommandManagerFactory(config, list_type="op")
+        self.command = CommandManagerFactory(config, UserListType.Opped)
         self.path = os.path.join(config.mc_root, "ops.json")
         self.user_list = self.load_list(self.path)
 
@@ -111,7 +133,7 @@ class OppedManager(UserListManager):
 class WhitelistManager(UserListManager):
 
     def __init__(self, config: Config):
-        self.command = CommandManagerFactory(config, list_type="wl")
+        self.command = CommandManagerFactory(config, UserListType.Whitelisted)
         self.path = os.path.join(config.mc_root, "whitelist.json")
         self.user_list = self.load_list(self.path)
 
@@ -171,7 +193,7 @@ class WhitelistManager(UserListManager):
 class BannedPlayerManager(UserListManager):
 
     def __init__(self, config: Config):
-        self.command = CommandManagerFactory(config, list_type="ban")
+        self.command = CommandManagerFactory(config, UserListType.Banned)
         self.path = os.path.join(config.mc_root, "banned-players.json")
         self.user_list = self.load_list(self.path)
 
@@ -231,7 +253,7 @@ class BannedPlayerManager(UserListManager):
 class BannedIPManager(UserListManager):
 
     def __init__(self, config: Config):
-        self.command = CommandManagerFactory(config, list_type="ip")
+        self.command = CommandManagerFactory(config, UserListType.BannedIP)
         self.path = os.path.join(config.mc_root, "banned-ips.json")
         self.user_list = self.load_list(self.path)
 
