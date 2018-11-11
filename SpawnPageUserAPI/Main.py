@@ -1,5 +1,6 @@
 from flask import Flask, request
 from SpawnPageUserAPI.utils.AuthPackage import Auth as auth
+from SpawnPageUserAPI.utils.AuthPackage import api
 from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OppedManager, BannedPlayerManager, BannedIPManager, UserListManager
 from SpawnPageUserAPI.utils.MojangAPIManager import MojangAPI
 import ast
@@ -13,7 +14,7 @@ from SpawnPageUserAPI.application import conf
 
 
 @app.route('/')
-@auth.api
+@api
 def hello_world():
     return 'Hello World!'
 
