@@ -3,8 +3,8 @@ class Auth(object):
 
     def api(self, func):
 
-        def wrapper():
+        def wrapper(*args, **kwargs):
             print("before route")
-            func()
+            func(*args, **kwargs)
 
         return wrapper()
