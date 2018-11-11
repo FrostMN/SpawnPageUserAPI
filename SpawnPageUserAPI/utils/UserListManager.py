@@ -77,7 +77,6 @@ class UserListManager(ABC):
     def _remove(self, item: str):
         return self.command.remove(user=item, cb=self._test_remove)
 
-
     @staticmethod
     def jsonify(data, status: int=200, indent: int = 4, sort_keys: bool=True):
         response = make_response(json.dumps(data, indent=indent, sort_keys=sort_keys))
@@ -89,6 +88,13 @@ class UserListManager(ABC):
     def load_list(self, path: str):
         with open(self.path) as json_file:
             return json.load(json_file)
+
+    # TODO: reevaluate
+    @staticmethod
+    # def unauthorized(self):
+    def unauthorized():
+        data = {"error": True, "message": "You are not authorized to perform this action."}
+        return UserListManager.jsonify(data=data, status=401)
 
 
 class OppedManager(UserListManager):

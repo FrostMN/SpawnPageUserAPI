@@ -1,5 +1,4 @@
 from flask import Flask, request
-from SpawnPageUserAPI.utils.AuthPackage import Auth as auth
 from SpawnPageUserAPI.utils.AuthPackage import api
 from SpawnPageUserAPI.utils.UserListManager import WhitelistManager, OppedManager, BannedPlayerManager, BannedIPManager, UserListManager
 from SpawnPageUserAPI.utils.MojangAPIManager import MojangAPI
@@ -13,7 +12,6 @@ from SpawnPageUserAPI.application import conf
 # conf = ConfigPicker(os.environ['ENV'])
 
 
-@api
 @app.route('/')
 def hello_world():
     return 'Hello World!'
@@ -22,9 +20,14 @@ def hello_world():
 @app.route('/test')
 def test():
 
-    print(request.headers['Authorization'])
+    r = request.headers
 
-    return 'Hello World!'
+    if api(r):
+
+        return 'Authorized!'
+
+    else:
+        return 'Unuthorized'
 
 
 @app.route('/api/v1/ping')
@@ -37,19 +40,23 @@ def whitelist_users():
 
     whitelist = WhitelistManager(conf)
 
-    # Adds Player from POST to whitelist.json
-    if request.method == "POST":
+    if api(request.headers):
 
-        key = request.headers['Authorization']
-        print(key)
+        # Adds Player from POST to whitelist.json
+        if request.method == "POST":
 
-        req = ast.literal_eval(request.data.decode("utf-8"))
+            key = request.headers['Authorization']
+            print(key)
 
-        message = whitelist.add(req['username'])
+            req = ast.literal_eval(request.data.decode("utf-8"))
 
-        return UserListManager.jsonify(message)
+            message = whitelist.add(req['username'])
 
-    return whitelist.get()
+            return UserListManager.jsonify(message)
+
+        return whitelist.get()
+    else:
+        return whitelist.unauthorized()
 
 
 @app.route('/api/v1/whitelist/<uuid>', methods=["GET", "DELETE"])
@@ -61,14 +68,18 @@ def whitelist_user(uuid: str):
     uuid = uuid.replace("-", "")
     player = mojang.username(uuid=uuid)
 
-    # Removes Player in DELETE from whitelist.json
-    if request.method == "DELETE":
+    if api(request.headers):
 
-        message = whitelist.remove(player)
+        # Removes Player in DELETE from whitelist.json
+        if request.method == "DELETE":
 
-        return UserListManager.jsonify(message)
+            message = whitelist.remove(player)
 
-    return whitelist.get(item=player)
+            return UserListManager.jsonify(message)
+
+        return whitelist.get(item=player)
+    else:
+        return whitelist.unauthorized()
 
 
 @app.route('/api/v1/admin', methods=["GET", "POST"])
@@ -77,14 +88,18 @@ def admin_usernames():
     # create OppedManager
     opped = OppedManager(conf)
 
-    # Adds Player in POST to ops.json
-    if request.method == "POST":
-        req = ast.literal_eval(request.data.decode("utf-8"))
-        message = opped.add(req['username'])
+    if api(request.headers):
 
-        return UserListManager.jsonify(message)
+        # Adds Player in POST to ops.json
+        if request.method == "POST":
+            req = ast.literal_eval(request.data.decode("utf-8"))
+            message = opped.add(req['username'])
 
-    return opped.get()
+            return UserListManager.jsonify(message)
+
+        return opped.get()
+    else:
+        return opped.unauthorized()
 
 
 @app.route('/api/v1/admin/<uuid>', methods=["GET", "DELETE"])
@@ -96,14 +111,18 @@ def admin_user(uuid: str):
     uuid = uuid.replace("-", "")
     player = mojang.username(uuid=uuid)
 
-    # Removes Player in DELETE from ops.json
-    if request.method == "DELETE":
+    if api(request.headers):
 
-        message = opped.remove(player)
+        # Removes Player in DELETE from ops.json
+        if request.method == "DELETE":
 
-        return UserListManager.jsonify(message)
+            message = opped.remove(player)
 
-    return opped.get(item=player)
+            return UserListManager.jsonify(message)
+
+        return opped.get(item=player)
+    else:
+        return opped.unauthorized()
 
 
 @app.route('/api/v1/banned', methods=["GET", "POST"])
@@ -111,14 +130,18 @@ def banned_players():
 
     banned = BannedPlayerManager(conf)
 
-    # Adds Player in POST to banned-players.json
-    if request.method == "POST":
-        req = ast.literal_eval(request.data.decode("utf-8"))
-        message = banned.add(req['username'])
+    if api(request.headers):
 
-        return UserListManager.jsonify(message)
+        # Adds Player in POST to banned-players.json
+        if request.method == "POST":
+            req = ast.literal_eval(request.data.decode("utf-8"))
+            message = banned.add(req['username'])
 
-    return banned.get()
+            return UserListManager.jsonify(message)
+
+        return banned.get()
+    else:
+        return banned.unauthorized()
 
 
 @app.route('/api/v1/banned/<uuid>', methods=["GET", "DELETE"])
@@ -129,14 +152,18 @@ def banned_player(uuid: str):
     uuid = uuid.replace("-", "")
     player = mojang.username(uuid=uuid)
 
-    # removes Player in DELETE from banned-players.json
-    if request.method == "DELETE":
+    if api(request.headers):
 
-        message = banned.remove(player)
+        # removes Player in DELETE from banned-players.json
+        if request.method == "DELETE":
 
-        return UserListManager.jsonify(message)
+            message = banned.remove(player)
 
-    return banned.get(item=player)
+            return UserListManager.jsonify(message)
+
+        return banned.get(item=player)
+    else:
+        return banned.unauthorized()
 
 
 @app.route('/api/v1/addresses', methods=["GET", "POST"])
@@ -144,12 +171,16 @@ def banned_addresses():
 
     banned_ip = BannedIPManager(conf)
 
-    # Adds IP in POST to banned-ips.json
-    if request.method == "POST":
-        req = ast.literal_eval(request.data.decode("utf-8"))
-        banned_ip.add(req['address'])
+    if api(request.headers):
 
-    return banned_ip.get()
+        # Adds IP in POST to banned-ips.json
+        if request.method == "POST":
+            req = ast.literal_eval(request.data.decode("utf-8"))
+            banned_ip.add(req['address'])
+
+        return banned_ip.get()
+    else:
+        return banned_ip.unauthorized()
 
 
 @app.route('/api/v1/addresses/<address>', methods=["GET", "POST"])
@@ -159,13 +190,17 @@ def banned_address(address: str):
 
     banned_ip = BannedIPManager(conf)
 
-    # Removes IP in DELETE from banned-ips.json
-    if request.method == "DELETE":
+    if api(request.headers):
 
-        req = ast.literal_eval(request.data.decode("utf-8"))
+        # Removes IP in DELETE from banned-ips.json
+        if request.method == "DELETE":
 
-        message = banned_ip.remove(req['address'])
+            req = ast.literal_eval(request.data.decode("utf-8"))
 
-        return UserListManager.jsonify(message)
+            message = banned_ip.remove(req['address'])
 
-    return banned_ip.get()
+            return UserListManager.jsonify(message)
+
+        return banned_ip.get()
+    else:
+        return banned_ip.unauthorized()

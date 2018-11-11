@@ -1,21 +1,13 @@
+from config import ConfigPicker
+import os
+conf = ConfigPicker(os.environ['ENV'])
 
-class Auth(object):
-
-    def api(self, func):
-
-        def wrapper(*args, **kwargs):
-            print("before route")
-            func(*args, **kwargs)
-
-        return wrapper()
+# # TODO: turn this into a proper @decorator
+# class Auth(object):
 
 
-def api(func):
-
-    print("before def wr")
-
-    def wrapper(*args, **kwargs):
-        print("before route")
-        func(*args, **kwargs)
-
-    return wrapper()
+def api(req):
+    if 'Authorization' in req.keys() and \
+            conf.USER_API_KEY == req['Authorization']:
+        return True
+    return False
