@@ -12,6 +12,8 @@ class Auth(object):
 
 def api(func):
 
+    print("before def wr")
+
     def wrapper(*args, **kwargs):
         print("before route")
         func(*args, **kwargs)
