@@ -105,6 +105,7 @@ def admin_usernames():
 @app.route('/api/v1/admin/<uuid>', methods=["GET", "DELETE"])
 def admin_user(uuid: str):
 
+    # create OppedManager
     opped = OppedManager(conf)
     mojang = MojangAPI()
 
