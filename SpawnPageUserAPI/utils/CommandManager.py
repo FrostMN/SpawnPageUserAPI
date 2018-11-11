@@ -93,7 +93,7 @@ class ScreenBannedIPManager(ScreenManager):
             return cb(address)
 
 
-def CommandManagerFactory(config: Config, user_list_type: str) -> CommandManager:
+def CommandManagerFactory(config: Config, user_list_type: property) -> CommandManager:
 
     if config.type == "screen":
         if user_list_type == UserListType.Opped:

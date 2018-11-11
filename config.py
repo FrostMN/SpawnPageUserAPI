@@ -7,6 +7,8 @@ class Config(object):
 
     DEBUG = False
     TESTING = False
+    USER_API_KEY = "user_api"
+
     type = "screen"
     # type = "subprocess"
     session = "forge"
