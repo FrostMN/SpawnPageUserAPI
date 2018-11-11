@@ -12,8 +12,8 @@ from SpawnPageUserAPI.application import conf
 # conf = ConfigPicker(os.environ['ENV'])
 
 
-@auth.api
 @app.route('/')
+@auth.api
 def hello_world():
     return 'Hello World!'
 
