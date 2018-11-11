@@ -8,14 +8,12 @@ import os
 
 class CommandManager(ABC):
 
-    wait = 3
-
     @abstractmethod
-    def add(self, user: str, cb=None, wait: int=3):
+    def add(self, user: str, cb=None, wait: int=1):
         pass
 
     @abstractmethod
-    def remove(self, user: str, cb=None, wait: int=3):
+    def remove(self, user: str, cb=None, wait: int=1):
         pass
 
 
@@ -29,31 +27,31 @@ class ScreenManager(CommandManager):
 
 class ScreenAdminManager(ScreenManager):
 
-    def add(self, user: str, cb=None, wait: int=3):
+    def add(self, user: str, cb=None, wait: int=1):
         op_cmd = "op {}".format(user)
         os.system(self.cmd.format(self.session, op_cmd))
         if cb:
             time.sleep(wait)
             return cb(user)
 
-    def remove(self, user: str, cb=None, wait: int=3):
+    def remove(self, user: str, cb=None, wait: int=1):
         deop_cmd = "deop {}".format(user)
         os.system(self.cmd.format(self.session, deop_cmd))
         if cb:
             time.sleep(wait)
             return cb(user)
-
+1
 
 class ScreenWhitelistManager(ScreenManager):
 
-    def add(self, user: str, cb=None, wait: int=3):
+    def add(self, user: str, cb=None, wait: int=1):
         wl_add = "whitelist add {}".format(user)
         os.system(self.cmd.format(self.session, wl_add))
         if cb:
             time.sleep(wait)
             return cb(user)
 
-    def remove(self, user: str, cb=None, wait: int=3):
+    def remove(self, user: str, cb=None, wait: int=1):
         wl_rem = "whitelist remove {}".format(user)
         os.system(self.cmd.format(self.session, wl_rem))
         if cb:
@@ -63,14 +61,14 @@ class ScreenWhitelistManager(ScreenManager):
 
 class ScreenBannedManager(ScreenManager):
 
-    def add(self, user: str, reason: str="Banned by an operator.", cb=None, wait: int=3):
+    def add(self, user: str, reason: str="Banned by an operator.", cb=None, wait: int=1):
         ban_cmd = "ban {user} {reason}".format(user=user, reason=reason)
         os.system(self.cmd.format(self.session, ban_cmd))
         if cb:
             time.sleep(wait)
             return cb(user)
 
-    def remove(self, user: str, cb=None, wait: int=3):
+    def remove(self, user: str, cb=None, wait: int=1):
         par_cmd = "pardon {}".format(user)
         os.system(self.cmd.format(self.session, par_cmd))
         if cb:
@@ -80,14 +78,14 @@ class ScreenBannedManager(ScreenManager):
 
 class ScreenBannedIPManager(ScreenManager):
 
-    def add(self, address: str, cb=None, wait: int=3):
+    def add(self, address: str, cb=None, wait: int=1):
         ban_cmd = "ban-ip {}".format(address)
         os.system(self.cmd.format(self.session, ban_cmd))
         if cb:
             time.sleep(wait)
             return cb(address)
 
-    def remove(self, address: str, cb=None, wait: int=3):
+    def remove(self, address: str, cb=None, wait: int=1):
         par_cmd = "pardon-ip {}".format(address)
         os.system(self.cmd.format(self.session, par_cmd))
         if cb:
