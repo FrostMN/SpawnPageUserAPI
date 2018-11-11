@@ -1,10 +1,10 @@
 
 class Auth(object):
 
-    def api(self, route_funct):
+    def api(self, func):
 
         def wrapper():
             print("before route")
-            route_funct()
+            func()
 
         return wrapper()
