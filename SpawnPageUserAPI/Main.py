@@ -37,7 +37,7 @@ def whitelist_users():
     # Adds Player from POST to whitelist.json
     if request.method == "POST":
 
-        key = request.headers
+        key = request.headers['Authorization']
         print(key)
 
         req = ast.literal_eval(request.data.decode("utf-8"))
