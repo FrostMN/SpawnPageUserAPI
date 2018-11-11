@@ -13,8 +13,8 @@ from SpawnPageUserAPI.application import conf
 # conf = ConfigPicker(os.environ['ENV'])
 
 
-@app.route('/')
 @api
+@app.route('/')
 def hello_world():
     return 'Hello World!'
 
