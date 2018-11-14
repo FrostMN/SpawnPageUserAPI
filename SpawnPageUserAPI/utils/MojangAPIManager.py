@@ -47,7 +47,10 @@ class MojangAPI(APIManager):
             highest_index = 0
             highest = 0
             call = self.urls.usernames.format(uuid=uuid)
-            req = requests.get(call).json()
+            try:
+                req = requests.get(call).json()
+            except:
+                return False
 
             for name in req:
                 if "changedToAt" in name.keys():

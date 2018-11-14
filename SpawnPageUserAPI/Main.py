@@ -70,6 +70,9 @@ def whitelist_user(uuid: str):
 
     if api(request.headers):
 
+        if not player:
+            return UserListManager.jsonify([])
+
         # Removes Player in DELETE from whitelist.json
         if request.method == "DELETE":
 
@@ -114,6 +117,9 @@ def admin_user(uuid: str):
 
     if api(request.headers):
 
+        if not player:
+            return UserListManager.jsonify([])
+
         # Removes Player in DELETE from ops.json
         if request.method == "DELETE":
 
@@ -154,6 +160,9 @@ def banned_player(uuid: str):
     player = mojang.username(uuid=uuid)
 
     if api(request.headers):
+
+        if not player:
+            return UserListManager.jsonify([])
 
         # removes Player in DELETE from banned-players.json
         if request.method == "DELETE":
